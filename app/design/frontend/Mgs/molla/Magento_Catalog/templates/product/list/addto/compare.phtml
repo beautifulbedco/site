@@ -1,0 +1,23 @@
+<?php
+/**
+ * Copyright © 2013-2017 Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+/** @var $block Magento\Catalog\Block\Product\ProductList\Item\AddTo\Compare */
+?>
+<?php 
+$themeSettingConfig = $this->helper('MGS\ThemeSettings\Helper\Config');
+$hideCompare = $themeSettingConfig->getStoreConfig('themesettings/catalog/compare_button');
+?>
+<?php if(!$hideCompare): ?>
+<a href="#"
+   class="action tocompare"
+   title="<?= $block->escapeHtml(__('Compare')); ?>"
+   aria-label="<?= $block->escapeHtml(__('Compare')); ?>"
+   data-post='<?php /* @escapeNotVerified */ echo $block->getCompareHelper()->getPostDataParams($block->getProduct()); ?>'
+   role="button">
+    <span><?php /* @escapeNotVerified */ echo __('Compare') ?></span>
+</a>
+<?php endif ?>

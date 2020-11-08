@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2013-2017 Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <move element="category.cms" destination="content" before="-"/>
+		
+		<referenceBlock name="page.main.title">
+			<action method="setTemplate">
+				<argument name="template" xsi:type="string">Magento_Catalog::category/html/title.phtml</argument>
+			</action>
+		</referenceBlock>
+		<referenceContainer name="content">
+			<block class="Magento\Catalog\Block\Category\View" name="category.image.top.content" template="Magento_Catalog::category/image.phtml" before="-"/>
+			<block class="Magento\Catalog\Block\Category\View" name="category.description.top.content" after="category.image.top.content" template="Magento_Catalog::category/description.phtml"/>
+			<block class="Magento\Catalog\Block\Category\View" name="category.cms.top.content" after="category.description.top.content" template="Magento_Catalog::category/cms.phtml"/>
+			<block class="Magento\Catalog\Block\Category\View" name="category.image.bottom.content" template="Magento_Catalog::category/image.phtml" after="category.products.list"/>
+			<block class="Magento\Catalog\Block\Category\View" name="category.description.bottom.content" after="category.image.bottom.content" template="Magento_Catalog::category/description.phtml"/>
+			<block class="Magento\Catalog\Block\Category\View" name="category.cms.bottom.content" after="category.description.bottom.content" template="Magento_Catalog::category/cms.phtml"/>
+		</referenceContainer>
+		<referenceContainer name="page.bottom.container">
+			<block class="Magento\Catalog\Block\Category\View" name="category.image.bottom.page" template="Magento_Catalog::category/image.phtml" before="-"/>
+			<block class="Magento\Catalog\Block\Category\View" name="category.description.bottom.page" after="category.image.bottom.page" template="Magento_Catalog::category/description.phtml"/>
+			<block class="Magento\Catalog\Block\Category\View" name="category.cms.bottom.page" after="category.description.bottom.page" template="Magento_Catalog::category/cms.phtml"/>
+		</referenceContainer>
+		<referenceBlock name="category.products.list">
+			<block class="Magento\Catalog\Block\Category\View" name="category.title.page" template="Magento_Catalog::category/title.phtml" ifconfig="themesettings/page_title/title_toolbar"/>
+		</referenceBlock>
+	</body>
+</page>

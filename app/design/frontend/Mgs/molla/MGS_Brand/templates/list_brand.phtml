@@ -1,0 +1,18 @@
+<?php
+$params = $this->getRequest()->getParams();
+$helper = $this->helper('MGS\Brand\Helper\Data');
+$collection = $block->getCollection();
+?>
+ <?php if ($collection->count()): ?>
+    <div class="brands-display">
+        <div class="line justify-content-center">
+            <?php $i=0; foreach ($collection as $brand): $i++; ?>
+                <div class="col-des-4 col-tb-4 col-mb-6 brand-custom ">
+                    <a href="<?= $brand->getUrl(); ?>" class="brand">
+                        <img class="img-responsive" src="<?= $brand->getSmallImageUrl(); ?>" alt="<?= $brand->getName(); ?>">
+                    </a>
+                </div><!-- End .col-sm-4 -->
+            <?php endforeach; ?>
+        </div><!-- End .row -->
+    </div>
+<?php endif; ?>

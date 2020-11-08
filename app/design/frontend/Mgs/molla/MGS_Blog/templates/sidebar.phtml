@@ -1,0 +1,121 @@
+<?php $helper = $this->helper('MGS\Blog\Helper\Data'); ?>
+<?php $helperSearch = $this->helper('Magento\Search\Helper\Data'); ?>
+<div class="content-sidebar">
+<?php if ($block->getConfig('general_settings/enabled')): ?>
+    <?php if ($block->getConfig('sidebar_settings/enabled')): ?>
+
+        <?php $action = $block->getBaseUrl().'/instantsearch/blog/result'; ?>
+        <div class="block block-blog-search widget widget-search">
+            <h3 class="widget-title">Search</h3>
+            <form class="form minisearch" id="search_mini_form" action="<?php /* @escapeNotVerified */ echo $action ?>" method="get">
+                <label for="ws" class="sr-only">Search in blog</label>
+                <div class="field search">
+                    <div class="control">
+                        <input id="search"
+                               data-mage-init='{"quickSearch":{
+                                    "formSelector":"#search_mini_form",
+                                    "url":"<?php /* @escapeNotVerified */ echo $block->getUrl('search/ajax/suggest', ['_secure' => $block->getRequest()->isSecure()]); ?>",
+                                    "destinationSelector":"#search_autocomplete"}
+                               }'
+                               type="text"
+                               name="<?php /* @escapeNotVerified */ echo $helperSearch->getQueryParamName() ?>"
+                               value="<?php /* @escapeNotVerified */ echo $helperSearch->getEscapedQueryText() ?>"
+                               placeholder="<?php /* @escapeNotVerified */ echo __('Search in blog'); ?>"
+                               class="input-text"
+                               maxlength="<?php /* @escapeNotVerified */ echo $helperSearch->getMaxQueryLength();?>"
+                               role="combobox"
+                               aria-haspopup="false"
+                               aria-expanded="false"
+                               aria-autocomplete="both"
+                               autocomplete="off"/>
+                        <div id="search_autocomplete" class="search-autocomplete"></div>
+                    </div>
+                </div>
+                <button type="submit" class="btn"><i class="icon-search"></i><span class="sr-only">Search</span></button>
+            </form>
+        </div>
+
+        <?php if ($block->getConfig('sidebar_settings/show_categories')): ?>
+            <?php $categories = $block->getCategories(); ?>
+            <?php if (count($categories)): ?>
+                <div class="block block-blog-categories widget widget-cats">
+                    <h3 class="block-title widget-title">
+                        <?= __('Categories') ?>
+                    </h3>
+                    <div class="block-content">
+                        <ul>
+                            <?php foreach ($categories as $category): ?>
+                               
+                                <li>
+                                    <a title="<?= $category->getTitle(); ?>"
+                                       href="<?= $category->getCategoryUrl(); ?>">
+                                        <?= $category->getTitle(); ?>
+                                        <span><?php echo $block->getCountPostInCategory($category->getCategoryId());  ?></span>
+                                    </a>
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </div>
+                </div>
+            <?php endif; ?>
+        <?php endif; ?>
+
+        <?php if ($block->getConfig('sidebar_settings/show_recent_posts')): ?>
+            <?php $collection = $block->getCollection(); ?>
+            <?php if ($collection->count()): ?>
+                <div class="block block-blog-posts widget">
+                    <h3 class="block-title widget-title ">
+                        <?= __('Popular Posts') ?>
+                    </h3>
+                    <div class="block-content">
+                        <ul class="posts-list">
+                            <?php foreach ($collection as $post): ?>
+                                <?php 
+                                    $imagePost = $helper->getGalleryImage($post);
+                                ?>
+                                <li class="item">
+                                    <figure>
+                                        <a href="#">
+                                            <img src="<?php echo $imagePost[0] ?>" alt="post">
+                                        </a>
+                                    </figure>
+									<div class="blog-content list-content">
+                                        <span><?= $block->formatDate($post->getCreatedAt(), \IntlDateFormatter::MEDIUM, false); ?></span>
+										<h4>
+											<a href="<?= $post->getPostUrlWithNoCategory(); ?>" title="<?= $post->getTitle(); ?>"><?= $post->getTitle() ?> </a>
+										</h4>
+									</div>
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </div>
+                </div>
+            <?php endif; ?>
+        <?php endif; ?>
+		
+		<?php echo $this->getLayout()->createBlock("Magento\Cms\Block\Block")->setBlockId('ad_box_blog_class')->toHtml(); ?>
+		
+        <?php if ($block->getConfig('sidebar_settings/show_tags')): ?>
+            <?php $tags = $block->getTags(); ?>
+            <?php if (count($tags)): ?>
+                <div class="block block-blog-tags widget">
+                    <h3 class="block-title widget-title">
+                        <?= __('Browse Tags') ?>
+                    </h3>
+                    <div class="block-content">
+						<ul class="tag-cloud tagcloud">
+							<?php foreach ($tags as $tag => $count): ?>
+								<li>
+									<a title="<?= $tag; ?>" href="<?= $helper->getTagUrl($tag); ?>"><?= $tag; ?></a>
+								</li>
+							<?php endforeach; ?>
+						</ul>
+                    </div>
+                </div>
+            <?php endif; ?>
+        <?php endif; ?>
+
+        <?php echo $this->getLayout()->createBlock("Magento\Cms\Block\Block")->setBlockId('about_blog')->toHtml(); ?>
+
+    <?php endif; ?>
+<?php endif; ?>

@@ -1,0 +1,40 @@
+<?php
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/** @var $block \Magento\Catalog\Block\Product\View*/
+?>
+<?php
+$_product = $block->getProduct();
+$_wishlistSubmitParams = $this->helper('Magento\Wishlist\Helper\Data')->getAddParams($_product);
+$compareHelper = $this->helper('Magento\Catalog\Helper\Product\Compare');
+$themeHelper = $this->helper('MGS\ThemeSettings\Helper\Config');
+
+$showWishlist = $themeHelper->getStoreConfig('themesettings/product_details/wishlist');
+$showCompare = $themeHelper->getStoreConfig('themesettings/product_details/compare');
+?>
+
+<div class="product-addto-links" data-role="add-to-links">
+    <?php if ($this->helper('Magento\Wishlist\Helper\Data')->isAllow() && $showWishlist)  : ?>
+        <a href="#"
+            class="action towishlist btn-product btn-wishlist"
+            data-post='<?php /* @escapeNotVerified */ echo $_wishlistSubmitParams; ?>'
+            data-action="add-to-wishlist"><span><?php /* @escapeNotVerified */ echo __('Add to Wishlist') ?></span></a>
+    <?php endif; ?>
+	<?php if ($showCompare) : ?>
+		<a href="#" data-post='<?php /* @escapeNotVerified */ echo $compareHelper->getPostDataParams($_product);?>'
+        data-role="add-to-links"
+        class="action tocompare btn-product btn-compare"><span><?php /* @escapeNotVerified */ echo __('Compare') ?></span></a>
+	<?php endif; ?>
+</div>
+<script type="text/x-magento-init">
+    {
+        "body": {
+            "addToWishlist": <?php /* @escapeNotVerified */ echo $this->helper('Magento\Framework\Json\Helper\Data')->jsonEncode($block->getWishlistOptions())?>
+        }
+    }
+</script>

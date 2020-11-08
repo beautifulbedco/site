@@ -1,0 +1,35 @@
+<?php
+/**
+ * Copyright © 2013-2017 Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/* @var $block \Magento\Wishlist\Block\Link */
+?>
+
+<div class="top-wishlist">
+	<a class='action theme-header-icon' data-bind="scope: 'wishlist'" <?php /* @escapeNotVerified */ echo $block->getLinkAttributes() ?>>
+		<span class="wishlist-icon "><i class="icon-heart-o"></i></span>
+		<!-- ko if: wishlist().counter -->
+		<span data-bind="text: wishlist().counter" class="counter qty"></span>
+		<!-- /ko -->
+		<span class="label text"><?php echo __('Wishlist'); ?></span>
+	</a>
+	<?= $block->getChildHtml(); ?>
+</div>
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "Magento_Ui/js/core/app": {
+                "components": {
+                    "wishlist": {
+                        "component": "Magento_Wishlist/js/view/wishlist"
+                    }
+                }
+            }
+        }
+    }
+
+</script>

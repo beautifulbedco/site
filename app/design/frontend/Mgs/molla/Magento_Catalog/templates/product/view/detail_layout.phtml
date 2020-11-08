@@ -1,0 +1,203 @@
+<?php
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php /** @var $block \Magento\Catalog\Block\Product\View */ ?>
+
+<?php $_product = $block->getProduct(); ?>
+<?php $themeHelper = $this->helper('MGS\ThemeSettings\Helper\Config'); ?>
+<?php $glrTemplate = $themeHelper->getStoreConfig('extragallery/general/glr_type'); ?>
+
+<?php if($_product->getMgsDetailTemplate() == ""): ?>
+	<?php $templateLayout = $themeHelper->getStoreConfig('themesettings/product_details/default_template'); ?>
+<?php else: ?>
+	<?php $templateLayout = $_product->getMgsDetailTemplate(); ?>
+<?php endif ?>
+
+<?php 
+if($_product->getData('extragallery_glr_type')){
+	$glrTemplate = $_product->getData('extragallery_glr_type');
+} 
+?>
+
+<?php $galleryPopup = $themeHelper->getStoreConfig('themesettings/product_details/popup_gallery'); ?>
+<?php $stickyMenu = $themeHelper->getStoreConfig('themesettings/header/sticky_menu'); ?>
+<?php $cr_header = $themeHelper->getStoreConfig('themesettings/header/header_version'); ?>
+<?php $class = "product-detail-media"; ?>
+<?php $enable_extended = $themeHelper->getStoreConfig('protabs/general/extended'); ?>
+<?php $showafter = $themeHelper->getStoreConfig('protabs/general/position'); ?>
+
+<?php if(!$templateLayout): ?><?php $templateLayout = 0; ?><?php endif ?>
+<input id="mgs_template_layout" type="hidden" name="mgs_template_layout" value="<?php echo $templateLayout; ?>">
+<input id="galleryPopup" type="hidden" name="galleryPopup" value="<?php echo $galleryPopup; ?>">
+<?php echo $block->getChildHtml('product.info.popup.gallery') ?>
+
+<?php if ($priceAmount = $_product->getFinalPrice()):?>
+	<div class="no-display price product-price"><?php echo $priceAmount; ?></div>
+<?php endif;?>
+
+<?php 
+$template_class_layout = ''; 
+if($templateLayout == 6) {
+	$template_class_layout = 'product-details-centered';
+}
+if ($templateLayout == 1) {
+	# code...
+}
+?>
+
+<?php if($glrTemplate != 3): ?>
+	<div class="frame">
+		<div class="line product-detail__infomation__media product-detail-infomation-sticky-parent <?php if($templateLayout == 6): ?>product-details-centered<?php endif ?>">
+			<div class="<?php if($templateLayout == 1): ?> col-des-7 <?php else: ?> col-des-6 <?php endif ?> col-tb-6 col-xs-12<?php if($galleryPopup): ?> product-gallery-popup<?php endif ?>">
+				<div class="<?php echo $class; ?>">
+					<?php echo $block->getChildHtml('product.info.media') ?>
+				</div>
+			</div>
+			<div class="<?php if($templateLayout == 1): ?> col-des-5 <?php else: ?> col-des-6 <?php endif ?> col-tb-6 col-xs-12 product-detail-infomation product-detail-infomation-sticky <?php if($templateLayout == 2): ?>product-infomation-sticky<?php endif ?>">
+				<div class="product-detail-infomation-content">
+					<?php echo $block->getChildHtml('alert_urls') ?>
+					<div class="product-info-main">
+
+						<?php echo $block->getChildHtml('product.info.name') ?>
+						<?php echo $block->getChildHtml('product.info.review') ?>
+						<?php echo $block->getChildHtml('product.info.price') ?>
+						<?php echo $block->getChildHtml('product.price.tier') ?>
+						<?php echo $block->getChildHtml('product.info.overview') ?>
+						<?php echo $block->getChildHtml('product.info.overview.copy') ?>
+
+						<?php echo $block->getChildHtml('product.info.main') ?>
+						<?php echo $block->getChildHtml('bundle.options.container') ?>
+						<?php echo $block->getChildHtml('product.info') ?>
+						<?php echo $block->getChildHtml('custom.product.detail.top.static.block') ?>
+
+						<div class="product-sub-infomation">
+							<?php echo $block->getChildHtml('product.info.category') ?>
+							<?php if($themeHelper->getStoreConfig('themesettings/sharethis/share_product_detail')): ?>
+								<?php echo $block->getChildHtml('sharethis.html') ?>
+							<?php endif ?>
+						</div>
+
+						<?php if($themeHelper->getStoreConfig('protabs/general/position')): ?>
+							<?php echo $block->getChildHtml('product.info.details') ?>
+						<?php endif ?>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<?php if(!$themeHelper->getStoreConfig('protabs/general/position') || $templateLayout== 3): ?>
+		<?php echo $block->getChildHtml('product.info.details') ?>
+	<?php endif ?>
+	<?php if(($templateLayout == 2) && ($glrTemplate != 3)): ?>
+		<script type="text/javascript">
+		
+		require([ 'jquery' ],function($) {
+			if($(window).width() > 991.98){
+				window.setInterval(function(){
+					var height = $('.product-info-main').height();
+					$('.product-detail-infomation-sticky').height(height);
+				}, 1000);
+			}
+		});
+		</script>
+	<?php endif ?>
+<?php else:?>
+	<div class="row product-detail__infomation__media product-detail-gallery product-detail-sticky-infomation product-details-centered">
+		<div id="slide-gallery" class="col-sm-6 col-xs-12 <?php echo $class; ?>">
+			<?php echo $block->getChildHtml('product.info.media') ?>
+		</div>
+		<div class="product-details sticky-content is_stuck<?php if($themeHelper->getStoreConfig('mgstheme/general/sticky_menu') && $themeHelper->getStoreConfig('mgstheme/general/header') != 'header_5'): ?> has-sticky-menu<?php endif ?>">
+			<?php echo $block->getChildHtml('alert_urls') ?>
+			<div class="frame">
+				<div class="line product-info-main">
+					<div class="col-tb-6">
+						<?php echo $block->getChildHtml('product.info.name') ?>
+						<?php echo $block->getChildHtml('product.info.review') ?>
+						<?php echo $block->getChildHtml('product.info.price') ?>
+						<?php echo $block->getChildHtml('product.price.tier') ?>
+						<?php echo $block->getChildHtml('product.info.overview') ?>
+						<?php echo $block->getChildHtml('product.info.overview.copy') ?>
+
+						<?php echo $block->getChildHtml('product.info.main') ?>
+						
+						<div class="product-sub-infomation">
+							<?php echo $block->getChildHtml('product.info.category') ?>
+							<?php if($themeHelper->getStoreConfig('themesettings/sharethis/share_product_detail')): ?>
+								<?php echo $block->getChildHtml('sharethis.html') ?>
+							<?php endif ?>
+						</div>
+					</div>
+					<div class="col-tb-6">
+						<?php echo $block->getChildHtml('product.info') ?>
+						<?php echo $block->getChildHtml('custom.product.detail.top.static.block') ?>
+						<?php echo $block->getChildHtml('bundle.options.container') ?>
+						
+					</div>
+					
+
+
+					<?php if($themeHelper->getStoreConfig('protabs/general/position')): ?>
+						<?php echo $block->getChildHtml('product.info.details') ?>
+					<?php endif ?>
+
+				</div>
+			</div>
+		</div>
+		<?php echo $block->getChildHtml('product.info.details') ?>
+		<script type="text/javascript">
+			require([
+			'jquery'
+			], function(jQuery){
+				(function($) {
+					$(document).ready(function(){
+						$('#slide-gallery').insertAfter('.breadcrumbs');
+					});
+				})(jQuery);
+			});
+		</script>
+	</div>
+<?php endif ?>
+<script type="text/javascript">
+	require([
+	'jquery'
+	], function(jQuery){
+		(function($) {
+			$(document).ready(function(){
+
+				// if choose extended tab
+				<?php if ($templateLayout == 1): ?>
+	    			$('body').addClass('full-width');
+				<?php endif ?>
+				<?php if (($enable_extended == 1) && ($showafter == 0) && ($templateLayout != 1)): ?>
+	    			$('body').addClass('extended-info-detail');
+				<?php endif ?>
+				$('.product-info-main .product-reviews-summary a').click(function(event){
+					event.returnValue = false;
+					event.preventDefault();
+					$('html, body').animate({
+						scrollTop: $(".product.info.detailed").offset().top - 150
+					}, 300);
+					<?php if(!$themeHelper->getStoreConfig('protabs/general/type')): ?>
+					if($(window).width() > 767){
+						$('#tab-label-reviews-title').click();
+					}else {
+						$('.title-accordion.accordion-reviews').click();
+					}
+					<?php else: ?>
+					if(!$('.title-accordion.accordion-reviews').hasClass('active')){
+						$('.title-accordion.accordion-reviews').click();
+					}
+					<?php endif ?>
+				});
+			});
+		})(jQuery);
+	});
+
+	
+</script>

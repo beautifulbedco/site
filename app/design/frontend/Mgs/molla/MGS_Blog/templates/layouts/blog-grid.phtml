@@ -1,0 +1,208 @@
+<?php
+$data = $block->getCountCommentInPost();
+$helper = $this->helper('MGS\Blog\Helper\Data');
+$collection = $block->getCollection();
+$showThumbnail = $this->getConfig('general_settings/show_thumbnail');
+if ($this->getConfig('general_settings/thumbnail_width') != '') {
+    $width = $this->getConfig('general_settings/thumbnail_width');
+} else {
+    $width = 240;
+}
+if ($this->getConfig('general_settings/thumbnail_height') != '') {
+    $height = $this->getConfig('general_settings/thumbnail_height');
+} else {
+    $height = 180;
+}
+$themeSettingConfig = $this->helper('MGS\ThemeSettings\Helper\Config');
+$rtl = $themeSettingConfig->getStoreConfig('themesettings/general/rtl_theme') ? 'true' : 'false';
+?>
+
+<?php if (!count($collection)): ?>
+    <div class="message empty">
+        <div><?= __('Have no posts.') ?></div>
+    </div>
+<?php else: ?>
+    <div class="blog-list blog-post-item">
+        <?php foreach ($collection as $post): ?>
+        	<?php
+        		// echo "<pre>";
+        		// print_r($post->getData());
+        		// echo "</pre>";
+        	 ?>
+            <div class="blog-post entry">
+				<div class="post-images entry-media <?php if($post->getThumbType() == "video" && $post->getVideoThumbId() != ""): ?> entry-video <?php endif; ?>">
+					<?php if($post->getThumbType() == "video" && $post->getVideoThumbId() != ""): ?>
+						<?php if($post->getThumbType() == "video" && $post->getVideoThumbId() != ""): ?>
+							<a class="popup-video" href="<?= $helper->getVideoThumbUrl($post); ?>"></a>
+						<?php endif ?>
+					<?php endif ?>
+                    <?php if ($helper->getGalleryImage($post)): ?>
+						<?php if(count($helper->getGalleryImage($post)) > 1): ?>
+						<div class="gallery-image-carousel owl-carousel gallery-open-owlcarousel">
+							<?php foreach($helper->getGalleryImage($post) as $_img): ?>
+								<a class="gallery_image" href="<?= $_img; ?>" 
+									style="background-image: url('<?= $_img; ?>')">
+									<img src="<?= $_img; ?>" alt="" class="img-fluid"/>
+								</a>
+							<?php endforeach ?>
+						</div>
+						<script type="text/javascript">
+							require([
+								'jquery',
+								'mgsowlcarousel'
+								], function($){			
+									$(document).ready(function(){
+										$(".gallery-open-owlcarousel").owlCarousel({
+											items: 10,
+											loop: true,
+											nav: true,
+											dots: false,
+											autoplayTimeout: 5000,
+											rtl: <?= $rtl ?>,
+											autoplay: false,
+											autoplayHoverPause: true,
+											margin: 0,
+											autoHeight:true,
+											responsive:{
+												0:{
+													items: 1
+												},
+												576:{
+													items: 1
+												},
+												767:{
+													items: 1
+												},
+												992:{
+													items: 1						
+												}
+											}
+										});
+									});  	
+								});		
+							
+							require([
+								'jquery',
+								'magnificPopup'
+							], function(jQuery){
+								(function($) {
+									$(document).ready(function() {
+										$('.gallery-image-carousel').magnificPopup({
+											delegate: '.owl-item:not(.cloned) a',
+											type: 'image',
+											tLoading: 'Loading image #%curr%...',
+											mainClass: 'mfp-img-gallery',
+											fixedContentPos: true,
+											gallery: {
+												enabled: true,
+												navigateByImgClick: true,
+												preload: [0,1]
+											},
+											image: {
+												tError: '<a href="%url%">The image #%curr%</a> could not be loaded.',
+												titleSrc: function(item) {
+												return item.el.attr('title');
+												}
+											}
+										});
+									});
+								})(jQuery);
+							});
+						</script>
+						<?php else: ?>
+							<div class="gallery-image-carousel owl-carousel">
+							<?php foreach($helper->getGalleryImage($post) as $_img): ?>
+								<a class="gallery_image" href="<?= $_img; ?>" 
+									style="background-image: url('<?= $_img; ?>')">
+									<img src="<?= $_img; ?>" alt="" class="img-fluid"/>
+								</a>
+							<?php endforeach ?>
+						</div>
+						<?php endif; ?>
+						<?php else:?> 
+						<?php if($helper->getImageThumbnailPost($post) != ""): ?>
+							<div class="post-thumbnail">
+								<?php if($post->getThumbType() == "video" && $post->getVideoThumbId() != ""): ?>
+									<a class="popup-video" href="<?= $helper->getVideoThumbUrl($post); ?>" title="<?= $post->getTitle(); ?>">
+										<img class="img-fluid" src="<?= $helper->getImageThumbnailPost($post); ?>" alt="<?= $post->getTitle(); ?>"/>
+									</a>
+									<div class="blog-list-video">
+										<?php if($post->getThumbType() == "video" && $post->getVideoThumbId() != ""): ?>
+											<a class="btn btn-primary popup-video" href="<?= $helper->getVideoThumbUrl($post); ?>"></a>
+										<?php endif ?>
+									</div>	
+								<?php else: ?>
+									<a  href="<?= $post->getPostUrlWithNoCategory(); ?>" title="<?= $post->getTitle(); ?>">
+										<img class="img-fluid" src="<?= $helper->getImageThumbnailPost($post); ?>" alt="<?= $post->getTitle(); ?>"/>
+									</a>
+								<?php endif ?>
+							</div>
+						<?php endif ?>
+					<?php endif ?>
+				</div>
+				<div class="post-item-info entry-body">
+					<div class="entry-meta">
+                        <span class="entry-author">
+                            by <a href="#"><?php echo  $post->getUser(); ?></a>
+                        </span>
+                        <span class="meta-separator">|</span>
+                        <a href="#"><?= $block->formatDate($post->getCreatedAt(), \IntlDateFormatter::MEDIUM, false); ?></a>
+                        <span class="meta-separator">|</span>
+                        <a href="#"><?php echo $block->getCountCommentInPost($post->getPostId()); ?> Comments</a>
+                    </div>
+					<h2 class="post-title entry-title">
+						 <a class="post-title-link" title="<?= $post->getTitle(); ?>" href="<?= $post->getPostUrlWithNoCategory(); ?>"><?= $post->getTitle(); ?></a>
+					</h2>
+					<?php if($post->getTags()): ?>
+					<?php 
+						$arrayTags = explode( ',', $post->getTags());
+					?>
+					
+					<div class="entry-cats">
+                        in 
+                        <?php foreach($arrayTags as $key => $tag): ?>
+                        	<?php if($key == (count($arrayTags) - 1)): ?>
+                        		<a href="#"> <?php echo $tag; ?></a>
+                        	<?php else: ?>
+                        		<a href="#"> <?php echo $tag; ?></a>,
+                        	<?php endif; ?>
+                        <?php endforeach; ?>
+                    </div>
+                	<?php endif; ?>
+
+					<?php if ($post->getShortContent()): ?>
+						<div class="post-content entry-content">
+							<div class="post-short-description">
+								<?= $post->getShortContent(); ?>
+							</div>
+							<div class="post-aux">
+								<a class="btn btn-link icon-right btn-readmore" href="<?= $post->getPostUrlWithNoCategory(); ?>"  ><span><?= __('Continue Reading') ?></span></a>
+							</div>
+						</div>
+					<?php endif; ?>
+					
+				</div>
+            </div>
+        <?php endforeach; ?>
+        <nav aria-label="Page navigation" class="pagination blog-pagination">
+		    <div class="toolbar"><?= $block->getPagerHtml(); ?></div>
+		</nav>
+    </div>
+	<script type="text/javascript">
+        require([
+            'jquery'
+        ], function(jQuery){
+            (function($) {
+                $(document).ready(function() {
+                   $('.block-content li ').find('a').each(function() {
+					  var text = $(this).attr("href");
+					  if (window.location.href.includes(text)) {
+						$(".active").removeClass("active");
+						$(this).addClass('active')
+					  }
+					});
+				});
+			})(jQuery);
+		});
+    </script>
+<?php endif; ?>

@@ -1,0 +1,46 @@
+<?php
+/**
+ * Copyright © 2013-2017 Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php
+/** @var \Magento\Wishlist\Block\Customer\Wishlist\Items $block */
+$columns = $block->getColumns();
+?>
+ 
+<div class="products-grid wishlist products wrapper  mgs-products grid products-grid effect3">
+    <?php $iterator = 1; ?>
+    <?php if (count($block->getItems())): ?>
+    <table class="table table-wishlist table-mobile">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Stock Status</th>
+                <th></th>
+            </tr>
+        </thead>
+        <?php foreach ($block->getItems() as $item): ?>
+        <tr>
+            <?php foreach ($columns as $column): ?>
+                <td>
+                    <?php $column->setItem($item); echo $column->toHtml($item);?>
+                </td>
+            <?php endforeach; ?> 
+        </tr>
+        <?php endforeach; ?>  
+    </table>
+    <?php else: ?>
+        <div class="message info empty">
+            <span><?php /* @escapeNotVerified */ echo __('This Wish List has no Items');?></span>
+        </div>
+    <?php endif; ?>
+</div>
+
+<?php foreach ($columns as $column): ?>
+    <?= $column->getAdditionalHtml();?>
+<?php endforeach; ?>
