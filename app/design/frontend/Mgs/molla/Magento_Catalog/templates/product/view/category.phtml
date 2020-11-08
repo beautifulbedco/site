@@ -1,0 +1,28 @@
+<?php
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php /** @var $block \Magento\Catalog\Block\Product\AbstractProduct */ ?>
+
+<?php $_helper = $this->helper('Magento\Catalog\Helper\Output'); ?>
+<?php 
+$themeHelper = $this->helper('MGS\MollaTheme\Helper\Config'); 
+$product = $block->getProduct();
+$categoryIds = $product->getCategoryIds();
+$categories = $themeHelper->getCategoryCollection()
+                    ->addAttributeToFilter('entity_id', $categoryIds);
+?>
+
+<?php if($themeHelper->getStoreConfig('themesettings/product_details/category')): ?>
+	<div class="product-cat">
+		<span>Category:</span>
+		<?php foreach ($categories as $category): ?>
+			<a href="<?php echo $category->getUrl(); ?>"><?php echo $category->getName(); ?></a>
+		<?php endforeach; ?>
+	</div>	
+<?php endif; ?>

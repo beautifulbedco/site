@@ -1,0 +1,1462 @@
+<?php
+/*
+ *     Block Guide
+ *    Magento menu: $block->getChildHtml('store.menu');
+ *    Language: $block->getChildHtml('store_language');
+ *    Currency: $block->getChildHtml('currency');
+ *    Top Links: $block->getChildHtml('top.links');
+ *    Skip Content Block: $block->getChildHtml('skip_to_content');
+ *    Logo: $block->getChildHtml('logo');
+ *    Mini Cart: $block->getChildHtml('minicart');
+ *    Search: $block->getChildHtml('topSearch');
+ *    Static block: $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('your_block_identifier')->toHtml();
+ */
+?>
+
+<?php
+$themeSettingConfig = $this->helper('MGS\ThemeSettings\Helper\Config');
+
+$blockEnable = explode(",", $themeSettingConfig->getStoreConfig('themesettings/header/elements'));
+$cartType = $themeSettingConfig->getStoreConfig('themesettings/header/mini_cart_type');
+$accountType = $themeSettingConfig->getStoreConfig('themesettings/header/my_account_type');
+$searchType = $themeSettingConfig->getStoreConfig('themesettings/header/search_type');
+$loginForm = $themeSettingConfig->getStoreConfig('themesettings/header/my_account_form');
+$stickyMenu = $themeSettingConfig->getStoreConfig('themesettings/header/sticky_menu');
+$stickyMenuMobile = $themeSettingConfig->getStoreConfig('themesettings/header/sticky_menu_mobile');
+$_headerVer = $themeSettingConfig->getStoreConfig('themesettings/header/header_version');
+if ($themeSettingConfig->getStoreConfig('themesettings/footer/footer_bottom_custom_copyright')) {
+    $copyright = $themeSettingConfig->getStoreConfig('themesettings/footer/footer_bottom_copyright');
+} else {
+    $copyright = $block->getChildHtml('copyright');
+}
+
+if ($_headerVer == '') {$_headerVer = 'header1';}
+
+$addtionClass = "search-" . $searchType;
+if ($cartType == 'slide') {
+    $addtionClass .= " minicart-slide";
+}
+if ($accountType == 'slide') {
+    $addtionClass .= " myaccount-slide";
+}
+if ($stickyMenu) {
+    $addtionClass .= " active-sticky";
+    if ($stickyMenuMobile) {
+        $addtionClass .= " active-sticky-mb";
+    }
+}
+
+if ($_headerVer == 'header13') {
+    $useragent=$_SERVER['HTTP_USER_AGENT'];
+    if(!preg_match('/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i',$useragent)||preg_match('/1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i',substr($useragent,0,4))){
+        $addtionClass .= " leftnav";
+    }
+}
+
+$settingContentCondition = false;
+if ((in_array('store', $blockEnable) && trim(preg_replace('/\s+/', ' ', $block->getChildHtml('store_language')))) || (in_array('curency', $blockEnable) && trim(preg_replace('/\s+/', ' ', $block->getChildHtml('currency')))) || (in_array('static1', $blockEnable) && trim(preg_replace('/\s+/', ' ', $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('supro_header_custom_static_block_1')->toHtml()))) || (in_array('static2', $blockEnable) && trim(preg_replace('/\s+/', ' ', $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('supro_header_custom_static_block_2')->toHtml())))) {
+    $settingContentCondition = true;
+}
+?>
+<div class="header-area <?=$_headerVer?> <?=$addtionClass?>">
+    <!-- Header 1 -->
+    <?php if ($_headerVer == 'header1'): ?>
+
+    <?php if ($themeSettingConfig->getStoreConfig('themesettings/header/display_top_header')): ?>
+    <div class="top-header">
+        <div class='frame'>
+            <div class='line align-items-center'>
+                <div class='col-des-6 col-tb-6 col-sm-8 left-content'>
+                    <?=$this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('header_custom_static_block_1')->toHtml();?>
+                </div>
+                <div class='col-des-6 col-tb-6 col-sm-4 right-content'>
+                    <?php if (in_array('store', $blockEnable) || in_array('curency', $blockEnable)): ?>
+                    <div class="customer-web-config">
+                        <?php if (in_array('store', $blockEnable)): ?>
+                        <?=$block->getChildHtml('store_language');?>
+                        <?php endif?>
+                        <?php if (in_array('curency', $blockEnable)): ?>
+                        <?=$block->getChildHtml('currency');?>
+                        <?php endif?>
+                    </div>
+                    <?php endif?>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php endif?>
+
+    <div class="middle-header elements-sticky-mb">
+        <div class='frame'>
+            <div class='line align-items-center '>
+
+                <div class='col-des-3 col-tb-3  col-mb-5 d-flex align-items-center   left-content'>
+                    <div class="megamenu_action"><button class="megamenu_action_mb" type="button"><i
+                                class="icon-bars"></i></button></div>
+                    <?=$block->getChildHtml('logo')?>
+                </div>
+                <div class='col-des-6 col-tb-6 hide-mb text-center search-desktop'>
+                    <?php if (in_array('search', $blockEnable)): ?>
+                    <?=$block->getChildHtml('topSearch')?>
+                    <?php endif?>
+                </div>
+                <div class='col-des-3 col-tb-3 col-mb-7  right-content'>
+                    <div class='d-flex align-items-center  menu-header-icon'>
+
+                        <?php if (in_array('account', $blockEnable)): ?>
+                        <div class="header-top-links">
+                            <div class="actions">
+                                <a class="action top-links theme-header-icon" href='#' title='Account'><i
+                                        class="icon-user"></i><span class='label'><?=__('Account')?></span></a>
+                            </div>
+                            <?=$block->getChildHtml('login.form.header');?>
+                        </div>
+                        <?php endif?>
+
+                        <?php if (in_array('wishlist', $blockEnable)): ?>
+                        <?=$block->getChildHtml('wishlist-link-header')?>
+                        <?php endif?>
+
+                        <?php if (in_array('minicart', $blockEnable)): ?>
+                        <?=$block->getChildHtml('minicart')?>
+                        <?php endif?>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom-header elements-sticky">
+        <div class='frame'>
+            <div class='conts-bottom-header'>
+                <?=$this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('menu-vertical-header-1')->toHtml();?>
+                <div class="horizontal-menu<?php if (!$block->getChildHtml('megamenu')): ?> mgt-menu<?php endif?>">
+                    <?php if ($block->getChildHtml('megamenu')): ?>
+                    <?=$block->getChildHtml('megamenu')?>
+                    <?php else: ?>
+                    <?=$block->getChildHtml('store.menu')?>
+                    <?php endif?>
+                </div>
+                <?=$this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('header_custom_static_block_2')->toHtml();?>
+            </div>
+        </div>
+    </div>
+
+
+    <?php /* Header 2 */?>
+    <?php elseif ($_headerVer == 'header2'): ?>
+
+    <?php if ($themeSettingConfig->getStoreConfig('themesettings/header/display_top_header')): ?>
+    <div class="top-header">
+        <div class='frame'>
+            <div class='conts-top-header'>
+                <div class='line align-items-center'>
+                    <div class='col-des-6 col-tb-6 col-sm-8 left-content'>
+                        <?=$this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('header_2_custom_static_block_1')->toHtml();?>
+                    </div>
+                    <div class='col-des-6 col-tb-6 col-sm-4 right-content'>
+                        <?php if (in_array('store', $blockEnable) || in_array('curency', $blockEnable)): ?>
+                        <div class="customer-web-config">
+                            <?php if (in_array('store', $blockEnable)): ?>
+                            <?=$block->getChildHtml('store_language');?>
+                            <?php endif?>
+                            <?php if (in_array('curency', $blockEnable)): ?>
+                            <?=$block->getChildHtml('currency');?>
+                            <?php endif?>
+                        </div>
+                        <?php endif?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php endif?>
+
+    <div class="middle-header elements-sticky-mb">
+        <div class='frame'>
+            <div class='line align-items-center '>
+
+                <div class='col-des-3 col-tb-4  col-mb-6 left-content'>
+                    <div class="megamenu_action"><button class="megamenu_action_mb" type="button"><i
+                                class="icon-bars"></i></button></div>
+                    <?=$block->getChildHtml('logo')?>
+                </div>
+                <div class='col-des-6 hide-tb hide-mb text-center search-desktop'>
+                    <?php if (in_array('search', $blockEnable)): ?>
+                    <?=$block->getChildHtml('topSearch')?>
+                    <?php endif?>
+                </div>
+                <div class='col-des-3 col-tb-8 col-mb-6  right-content'>
+                    <div class='d-flex align-items-center  menu-header-icon'>
+
+                        <?php if (in_array('account', $blockEnable)): ?>
+                        <div class="header-top-links">
+                            <div class="actions">
+                                <a class="action top-links theme-header-icon" href='#' title='Account'><i
+                                        class="icon-user"></i><span class='label'><?=__('Account')?></span></a>
+                            </div>
+                            <?=$block->getChildHtml('login.form.header');?>
+                        </div>
+                        <?php endif?>
+                        <div class='compare-header'>
+                            <?php echo $this->getLayout()->createBlock("Magento\Framework\View\Element\Template")->setTemplate("MGS_MollaTheme::product-compare.phtml")->toHtml(); ?>
+                        </div>
+                        <?php if (in_array('wishlist', $blockEnable)): ?>
+                        <?=$block->getChildHtml('wishlist-link-header')?>
+                        <?php endif?>
+
+                        <?php if (in_array('minicart', $blockEnable)): ?>
+                        <?=$block->getChildHtml('minicart')?>
+                        <?php endif?>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom-header elements-sticky">
+        <div class='frame'>
+            <div class='conts-bottom-header'>
+                <?=$this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('menu-vertical-header-1')->toHtml();?>
+                <div class="horizontal-menu<?php if (!$block->getChildHtml('megamenu')): ?> mgt-menu<?php endif?>">
+                    <?php if ($block->getChildHtml('megamenu')): ?>
+                    <?=$block->getChildHtml('megamenu')?>
+                    <?php else: ?>
+                    <?=$block->getChildHtml('store.menu')?>
+                    <?php endif?>
+                </div>
+                <?=$this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('header_custom_static_block_2')->toHtml();?>
+            </div>
+        </div>
+    </div>
+    <?php elseif ($_headerVer == 'header3'): ?>
+    <?php /* Header 3 */?>
+    <?php if ($themeSettingConfig->getStoreConfig('themesettings/header/display_top_header')): ?>
+    <div class="top-header">
+        <div class='frame'>
+            <div class='conts-top-header'>
+                <div class='line align-items-center'>
+                    <div class='col-des-3 col-tb-3 col-sm-4 left-content'>
+                        <?php if (in_array('store', $blockEnable) || in_array('curency', $blockEnable)): ?>
+                        <div class="customer-web-config">
+                            <?php if (in_array('store', $blockEnable)): ?>
+                            <?=$block->getChildHtml('store_language');?>
+                            <?php endif?>
+                            <?php if (in_array('curency', $blockEnable)): ?>
+                            <?=$block->getChildHtml('currency');?>
+                            <?php endif?>
+                        </div>
+                        <?php endif?>
+
+                    </div>
+                    <div class='col-des-9 col-tb-9 col-sm-8 right-content'>
+                        <div class='d-flex align-items-center  justify-content-end top-menu'>
+                            <?=$this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('header_2_custom_static_block')->toHtml();?>
+                            <?php if (in_array('wishlist', $blockEnable)): ?>
+                            <?=$block->getChildHtml('wishlist-link-header')?>
+                            <?php endif?>
+                            <?php if (in_array('account', $blockEnable)): ?>
+                            <div class="header-top-links">
+                                <div class="actions">
+                                    <a class="action top-links theme-header-icon" href='#' title='Account'><i
+                                            class="icon-user"></i><span class='label'><?=__('Account')?></span></a>
+                                </div>
+                                <?=$block->getChildHtml('login.form.header');?>
+                            </div>
+                            <?php endif?>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php endif?>
+
+    <div class="middle-header elements-sticky elements-sticky-mb">
+        <div class='frame'>
+            <div class='d-flex align-items-center '>
+                <div class='left-content logo'>
+                    <div class="megamenu_action"><button class="megamenu_action_mb" type="button"><i
+                                class="icon-bars"></i></button></div>
+                    <?=$block->getChildHtml('logo')?>
+                </div>
+                <div class="horizontal-menu<?php if (!$block->getChildHtml('megamenu')): ?> mgt-menu<?php endif?>">
+                    <?php if ($block->getChildHtml('megamenu')): ?>
+                    <?=$block->getChildHtml('megamenu')?>
+                    <?php else: ?>
+                    <?=$block->getChildHtml('store.menu')?>
+                    <?php endif?>
+                </div>
+                <div class='right-content'>
+                    <div class='d-flex align-items-center  menu-header-icon'>
+                        <?php if (in_array('search', $blockEnable)): ?>
+                        <div class='search-desktop'>
+                            <?=$block->getChildHtml('topSearch')?>
+                        </div>
+                        <?php endif?>
+                        <?php if (in_array('minicart', $blockEnable)): ?>
+                        <?=$block->getChildHtml('minicart')?>
+                        <?php endif?>
+
+                        <?php if ($themeSettingConfig->getStoreConfig('themesettings/header/display_top_header') == 0): ?>
+
+                        <?php if (in_array('wishlist', $blockEnable)): ?>
+                        <?=$block->getChildHtml('wishlist-link-header')?>
+                        <?php endif?>
+
+                        <?php if (in_array('account', $blockEnable)): ?>
+                        <div class="header-top-links">
+                            <div class="actions">
+                                <a class="action top-links theme-header-icon" href='#' title='Account'><i
+                                        class="icon-user"></i></a>
+                            </div>
+                            <?=$block->getChildHtml('login.form.header');?>
+                        </div>
+                        <?php endif?>
+
+                        <div class="setting-site">
+                            <div class="actions">
+                                <button class="action setting" type="button"><span
+                                        class="icon-cog theme-header-icon"></span></button>
+                            </div>
+                            <div class="setting-site-content">
+                                <div class="ct">
+                                    <div class="actions-close">
+                                        <button id="close-setting-site"><span class="icon-close"></span></button>
+                                    </div>
+                                    <div class="customer-web-config">
+                                        <?php if (in_array('store', $blockEnable)): ?>
+                                        <?=$block->getChildHtml('store_language');?>
+                                        <?php endif?>
+                                        <?php if (in_array('curency', $blockEnable)): ?>
+                                        <?=$block->getChildHtml('currency');?>
+                                        <?php endif?>
+                                    </div>
+                                    <?php if (in_array('static1', $blockEnable)): ?>
+                                    <?=$this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('header-custom-static-block-social-setting-site')->toHtml();?>
+                                    <?php endif?>
+                                </div>
+                            </div>
+                        </div>
+                        <?php endif?>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php /* Header 4 */?>
+    <?php elseif ($_headerVer == 'header4'): ?>
+    <div class="middle-header  elements-sticky elements-sticky-mb">
+        <div class='frame-fluid'>
+            <div class='d-flex align-items-center '>
+                <div class="megamenu_action"><button class="megamenu_action_mb" type="button"><i
+                            class="icon-bars"></i></button></div>
+                <div class='left-content logo'>
+                    <?=$block->getChildHtml('logo')?>
+                </div>
+                <div class="horizontal-menu<?php if (!$block->getChildHtml('megamenu')): ?> mgt-menu<?php endif?>">
+                    <?php if ($block->getChildHtml('megamenu')): ?>
+                    <?=$block->getChildHtml('megamenu')?>
+                    <?php else: ?>
+                    <?=$block->getChildHtml('store.menu')?>
+                    <?php endif?>
+                </div>
+                <div class='right-content'>
+                    <div class='d-flex align-items-center  menu-header-icon'>
+
+                        <?php if (in_array('search', $blockEnable)): ?>
+                        <div class='search-desktop'>
+                            <?=$block->getChildHtml('topSearch')?>
+                        </div>
+                        <?php endif?>
+                        <?php if (in_array('account', $blockEnable)): ?>
+                        <div class="header-top-links">
+                            <div class="actions">
+                                <a class="action top-links theme-header-icon" href='#' title='Account'><i
+                                        class="icon-user"></i></a>
+                            </div>
+                            <?=$block->getChildHtml('login.form.header');?>
+                        </div>
+                        <?php endif?>
+                        <?php if (in_array('wishlist', $blockEnable)): ?>
+                        <?=$block->getChildHtml('wishlist-link-header')?>
+                        <?php endif?>
+                        <?php if (in_array('minicart', $blockEnable)): ?>
+                        <?=$block->getChildHtml('minicart')?>
+                        <?php endif?>
+                        <div class="setting-site">
+                            <div class="actions">
+                                <button class="action setting" type="button"><span
+                                        class="icon-cog theme-header-icon"></span></button>
+                            </div>
+                            <div class="setting-site-content">
+                                <div class="ct">
+                                    <div class="actions-close">
+                                        <button id="close-setting-site"><span class="icon-close"></span></button>
+                                    </div>
+                                    <div class="customer-web-config">
+                                        <?php if (in_array('store', $blockEnable)): ?>
+                                        <?=$block->getChildHtml('store_language');?>
+                                        <?php endif?>
+                                        <?php if (in_array('curency', $blockEnable)): ?>
+                                        <?=$block->getChildHtml('currency');?>
+                                        <?php endif?>
+                                    </div>
+                                    <?php if (in_array('static1', $blockEnable)): ?>
+                                    <?=$this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('header-custom-static-block-social-setting-site')->toHtml();?>
+                                    <?php endif?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php /* Header 5 */?>
+    <?php elseif ($_headerVer == 'header5'): ?>
+    <?php if ($themeSettingConfig->getStoreConfig('themesettings/header/display_top_header')): ?>
+    <div class="top-header">
+        <div class='frame'>
+            <div class='conts-top-header'>
+                <div class='line align-items-center'>
+                    <div class='col-des-3 col-tb-3 col-sm-4 left-content'>
+                        <?php if (in_array('store', $blockEnable) || in_array('curency', $blockEnable)): ?>
+                        <div class="customer-web-config">
+                            <?php if (in_array('store', $blockEnable)): ?>
+                            <?=$block->getChildHtml('store_language');?>
+                            <?php endif?>
+                            <?php if (in_array('curency', $blockEnable)): ?>
+                            <?=$block->getChildHtml('currency');?>
+                            <?php endif?>
+                        </div>
+                        <?php endif?>
+
+                    </div>
+                    <div class='col-des-9 col-tb-9 col-sm-8 right-content'>
+                        <div class='d-flex align-items-center  justify-content-end top-menu'>
+                            <div class='checkout-link'>
+                                <a class='action checkout'
+                                    href='<?php echo $block->getUrl('checkout', ['_secure' => true]); ?>'
+                                    title='Checkout'><?=__('Checkout');?></a>
+                            </div>
+                            <?php if (in_array('wishlist', $blockEnable)): ?>
+                            <?=$block->getChildHtml('wishlist-link-header')?>
+                            <?php endif?>
+                            <?php if (in_array('account', $blockEnable)): ?>
+                            <div class="header-top-links">
+                                <div class="actions">
+                                    <a class="action top-links theme-header-icon" href='#' title='Account'><i
+                                            class="icon-user"></i><span class='label'><?=__('Account')?></span></a>
+                                </div>
+                                <?=$block->getChildHtml('login.form.header');?>
+                            </div>
+                            <?php endif?>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php endif?>
+
+    <div class="middle-header  elements-sticky elements-sticky-mb">
+        <div class='frame'>
+            <div class='d-flex align-items-center '>
+                <div class='d-flex align-items-center left-content logo'>
+                    <div class="megamenu_action"><button class="megamenu_action_mb" type="button"><i
+                                class="icon-bars"></i></button></div>
+                    <?=$block->getChildHtml('logo')?>
+                </div>
+                <div class="horizontal-menu<?php if (!$block->getChildHtml('megamenu')): ?> mgt-menu<?php endif?>">
+                    <?php if ($block->getChildHtml('megamenu')): ?>
+                    <?=$block->getChildHtml('megamenu')?>
+                    <?php else: ?>
+                    <?=$block->getChildHtml('store.menu')?>
+                    <?php endif?>
+                </div>
+                <div class='right-content'>
+                    <div class='d-flex align-items-center  menu-header-icon'>
+                        <?php if (in_array('search', $blockEnable)): ?>
+                        <div class='search-desktop'>
+                            <?=$block->getChildHtml('topSearch')?>
+                        </div>
+                        <?php endif?>
+                        <div class='compare-header'>
+                            <?php echo $this->getLayout()->createBlock("Magento\Framework\View\Element\Template")->setTemplate("MGS_MollaTheme::product-compare.phtml")->toHtml(); ?>
+                        </div>
+
+                        <?php if ($themeSettingConfig->getStoreConfig('themesettings/header/display_top_header') == 0): ?>
+
+                        <?php if (in_array('account', $blockEnable)): ?>
+                        <div class="header-top-links">
+                            <div class="actions">
+                                <a class="action top-links theme-header-icon" href='#' title='Account'><i
+                                        class="icon-user"></i><span class='label'><?=__('Account')?></span></a>
+                            </div>
+                            <?=$block->getChildHtml('login.form.header');?>
+                        </div>
+                        <?php endif?>
+
+                        <?php if (in_array('wishlist', $blockEnable)): ?>
+                        <?=$block->getChildHtml('wishlist-link-header')?>
+                        <?php endif?>
+
+                        <div class="setting-site">
+                            <div class="actions">
+                                <button class="action setting" type="button"><span
+                                        class="icon-cog theme-header-icon"></span></button>
+                            </div>
+                            <div class="setting-site-content">
+                                <div class="ct">
+                                    <div class="actions-close">
+                                        <button id="close-setting-site"><span class="icon-close"></span></button>
+                                    </div>
+                                    <div class="customer-web-config">
+                                        <?php if (in_array('store', $blockEnable)): ?>
+                                        <?=$block->getChildHtml('store_language');?>
+                                        <?php endif?>
+                                        <?php if (in_array('curency', $blockEnable)): ?>
+                                        <?=$block->getChildHtml('currency');?>
+                                        <?php endif?>
+                                    </div>
+                                    <?php if (in_array('static1', $blockEnable)): ?>
+                                    <?=$this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('header-custom-static-block-social-setting-site')->toHtml();?>
+                                    <?php endif?>
+                                </div>
+                            </div>
+                        </div>
+                        <?php endif?>
+
+                        <?php if (in_array('minicart', $blockEnable)): ?>
+                        <?=$block->getChildHtml('minicart')?>
+                        <?php endif?>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php /* Header 6 */?>
+    <?php elseif ($_headerVer == 'header6'): ?>
+    <?php if ($themeSettingConfig->getStoreConfig('themesettings/header/display_top_header')): ?>
+    <div class="top-header">
+        <div class='frame'>
+            <div class='line align-items-center'>
+                <div class='col-des-6 col-tb-6 col-sm-4 left-content'>
+                    <?=$this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('header_2_custom_static_block_1')->toHtml();?>
+                </div>
+                <div class='col-des-6 col-tb-6 col-sm-8 right-content'>
+                    <?php if (in_array('store', $blockEnable) || in_array('curency', $blockEnable)): ?>
+                    <div class="customer-web-config">
+                        <?php if (in_array('store', $blockEnable)): ?>
+                        <?=$block->getChildHtml('store_language');?>
+                        <?php endif?>
+                        <?php if (in_array('curency', $blockEnable)): ?>
+                        <?=$block->getChildHtml('currency');?>
+                        <?php endif?>
+                    </div>
+                    <?php endif?>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php endif?>
+
+    <div class="middle-header elements-sticky-mb">
+        <div class='frame'>
+            <div class='line align-items-center '>
+                <div class='col-des-3 col-tb-3  col-mb-6 left-content'>
+                    <div class="megamenu_action"><button class="megamenu_action_mb" type="button"><i
+                                class="icon-bars"></i></button></div>
+                    <?=$block->getChildHtml('logo')?>
+                </div>
+                <div class='col-des-6 col-tb-6 hide-mb text-center search-desktop'>
+                    <?php if (in_array('search', $blockEnable)): ?>
+                    <?=$block->getChildHtml('topSearch')?>
+                    <?php endif?>
+                </div>
+                <div class='col-des-3 col-tb-3 col-mb-6  right-content'>
+                    <div class='d-flex align-items-center  menu-header-icon'>
+                        <?php if (in_array('account', $blockEnable)): ?>
+                        <div class="header-top-links">
+                            <div class="actions">
+                                <a class="action top-links theme-header-icon" href='#' title='Account'><i
+                                        class="icon-user"></i><span class='label'><?=__('Account')?></span></a>
+                            </div>
+                            <?=$block->getChildHtml('login.form.header');?>
+                        </div>
+                        <?php endif?>
+                        <div class='compare-header'>
+                            <?php echo $this->getLayout()->createBlock("Magento\Framework\View\Element\Template")->setTemplate("MGS_MollaTheme::product-compare.phtml")->toHtml(); ?>
+                        </div>
+                        <?php if (in_array('wishlist', $blockEnable)): ?>
+                        <?=$block->getChildHtml('wishlist-link-header')?>
+                        <?php endif?>
+
+                        <?php if (in_array('minicart', $blockEnable)): ?>
+                        <?=$block->getChildHtml('minicart')?>
+                        <?php endif?>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom-header elements-sticky">
+        <div class='frame'>
+            <div class='conts-bottom-header'>
+                <?=$this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('menu-vertical-header-market')->toHtml();?>
+                <div class="horizontal-menu<?php if (!$block->getChildHtml('megamenu')): ?> mgt-menu<?php endif?>">
+                    <?php if ($block->getChildHtml('megamenu')): ?>
+                    <?=$block->getChildHtml('megamenu')?>
+                    <?php else: ?>
+                    <?=$block->getChildHtml('store.menu')?>
+                    <?php endif?>
+                </div>
+                <?=$this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('header_custom_static_block_2')->toHtml();?>
+            </div>
+        </div>
+    </div>
+
+    <?php /* Header 7 */?>
+    <?php elseif ($_headerVer == 'header7'): ?>
+    <div class="middle-header  elements-sticky elements-sticky-mb">
+        <div class='frame'>
+            <div class='d-flex align-items-center '>
+                <div class="megamenu_action"><button class="megamenu_action_mb" type="button"><i
+                            class="icon-bars"></i></button></div>
+                <div class='left-content logo'>
+                    <?=$block->getChildHtml('logo')?>
+                </div>
+                <div class="horizontal-menu<?php if (!$block->getChildHtml('megamenu')): ?> mgt-menu<?php endif?>">
+                    <?php if ($block->getChildHtml('megamenu')): ?>
+                    <?=$block->getChildHtml('megamenu')?>
+                    <?php else: ?>
+                    <?=$block->getChildHtml('store.menu')?>
+                    <?php endif?>
+                </div>
+                <div class='right-content'>
+                    <div class='d-flex align-items-center  menu-header-icon'>
+
+                        <?php if (in_array('search', $blockEnable)): ?>
+                        <div class='search-desktop'>
+                            <?=$block->getChildHtml('topSearch')?>
+                        </div>
+                        <?php endif?>
+                        <?php if (in_array('account', $blockEnable)): ?>
+                        <div class="header-top-links">
+                            <div class="actions">
+                                <a class="action top-links theme-header-icon" href='#' title='Account'><i
+                                        class="icon-user"></i></a>
+                            </div>
+                            <?=$block->getChildHtml('login.form.header');?>
+                        </div>
+                        <?php endif?>
+
+                        <?php if (in_array('wishlist', $blockEnable)): ?>
+                        <?=$block->getChildHtml('wishlist-link-header')?>
+                        <?php endif?>
+                        <?php if (in_array('minicart', $blockEnable)): ?>
+                        <?=$block->getChildHtml('minicart')?>
+                        <?php endif?>
+
+                        <div class="setting-site">
+                            <div class="actions">
+                                <button class="action setting" type="button"><span
+                                        class="icon-cog theme-header-icon"></span></button>
+                            </div>
+                            <div class="setting-site-content">
+                                <div class="ct">
+                                    <div class="actions-close">
+                                        <button id="close-setting-site"><span class="icon-close"></span></button>
+                                    </div>
+                                    <div class="customer-web-config">
+                                        <?php if (in_array('store', $blockEnable)): ?>
+                                        <?=$block->getChildHtml('store_language');?>
+                                        <?php endif?>
+                                        <?php if (in_array('curency', $blockEnable)): ?>
+                                        <?=$block->getChildHtml('currency');?>
+                                        <?php endif?>
+                                    </div>
+                                    <?php if (in_array('static1', $blockEnable)): ?>
+                                    <?=$this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('header-custom-static-block-social-setting-site')->toHtml();?>
+                                    <?php endif?>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <?php /* Header 8 */?>
+    <?php elseif ($_headerVer == 'header8'): ?>
+    <?php if ($themeSettingConfig->getStoreConfig('themesettings/header/display_top_header')): ?>
+    <div class="top-header">
+        <div class='frame'>
+            <div class='line align-items-center'>
+                <div class='col-des-6 col-tb-4 col-sm-12 left-content'>
+                    <?=$this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('header_2_custom_static_block_1')->toHtml();?>
+                </div>
+                <div class='col-des-6 col-tb-8 col-sm-12 d-flex align-items-center right-content'>
+                    <div class='social'>
+                        <?=$this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('header_8_custom_static_block_social')->toHtml();?>
+                    </div>
+                    <?php if (in_array('account', $blockEnable)): ?>
+                    <div class="header-top-links">
+                        <div class="actions">
+                            <a class="action top-links theme-header-icon" href='#' title='Account'><i
+                                    class="icon-user"></i><span class='label'><?=__('Account')?></span></a>
+                        </div>
+                        <?=$block->getChildHtml('login.form.header');?>
+                    </div>
+                    <?php endif?>
+                    <?php if (in_array('store', $blockEnable) || in_array('curency', $blockEnable)): ?>
+                    <div class="customer-web-config">
+                        <?php if (in_array('store', $blockEnable)): ?>
+                        <?=$block->getChildHtml('store_language');?>
+                        <?php endif?>
+                        <?php if (in_array('curency', $blockEnable)): ?>
+                        <?=$block->getChildHtml('currency');?>
+                        <?php endif?>
+                    </div>
+                    <?php endif?>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php endif?>
+
+    <div class="middle-header elements-sticky-mb">
+        <div class='frame'>
+            <div class="conts-middle-header">
+                <div class='line align-items-center '>
+                    <div class='col-des-5 col-tb-0 hide-tb hide-mb text-center search-desktop'>
+                        <?php if (in_array('search', $blockEnable)): ?>
+                        <?=$block->getChildHtml('topSearch')?>
+                        <?php endif?>
+                    </div>
+                    <div class='col-des-2 col-tb-2 d-flex align-items-center  col-mb-4 center-content'>
+                        <div class="megamenu_action"><button class="megamenu_action_mb" type="button"><i
+                                    class="icon-bars"></i></button></div>
+                        <?=$block->getChildHtml('logo')?>
+                    </div>
+                    <div class='col-des-5 col-tb-5 col-mb-8  right-content'>
+                        <div class='d-flex align-items-center  menu-header-icon'>
+                            <?php if (in_array('wishlist', $blockEnable)): ?>
+                            <?=$block->getChildHtml('wishlist-link-header')?>
+                            <?php endif?>
+
+                            <?php if (in_array('minicart', $blockEnable)): ?>
+                            <?=$block->getChildHtml('minicart')?>
+                            <?php endif?>
+
+                            <?php if ($themeSettingConfig->getStoreConfig('themesettings/header/display_top_header') == 0): ?>
+
+                            <?php if (in_array('account', $blockEnable)): ?>
+                            <div class="header-top-links">
+                                <div class="actions">
+                                    <a class="action top-links theme-header-icon" href='#' title='Account'><i
+                                            class="icon-user"></i><span class='label'><?=__('Account')?></span></a>
+                                </div>
+                                <?=$block->getChildHtml('login.form.header');?>
+                            </div>
+                            <?php endif?>
+
+                            <div class="setting-site">
+                                <div class="actions">
+                                    <button class="action setting" type="button"><span
+                                            class="icon-cog theme-header-icon"></span></button>
+                                </div>
+                                <div class="setting-site-content">
+                                    <div class="ct">
+                                        <div class="actions-close">
+                                            <button id="close-setting-site"><span class="icon-close"></span></button>
+                                        </div>
+                                        <div class="customer-web-config">
+                                            <?php if (in_array('store', $blockEnable)): ?>
+                                            <?=$block->getChildHtml('store_language');?>
+                                            <?php endif?>
+                                            <?php if (in_array('curency', $blockEnable)): ?>
+                                            <?=$block->getChildHtml('currency');?>
+                                            <?php endif?>
+                                        </div>
+                                        <?php if (in_array('static1', $blockEnable)): ?>
+                                        <?=$this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('header-custom-static-block-social-setting-site')->toHtml();?>
+                                        <?php endif?>
+                                    </div>
+                                </div>
+                            </div>
+                            <?php endif?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom-header elements-sticky">
+        <div class='frame'>
+            <div class=' d-flex align-items-center conts-bottom-header'>
+                <div class="horizontal-menu<?php if (!$block->getChildHtml('megamenu')): ?> mgt-menu<?php endif?>">
+                    <?php if ($block->getChildHtml('megamenu')): ?>
+                    <?=$block->getChildHtml('megamenu')?>
+                    <?php else: ?>
+                    <?=$block->getChildHtml('store.menu')?>
+                    <?php endif?>
+                </div>
+                <?=$this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('header_custom_static_block_2')->toHtml();?>
+            </div>
+        </div>
+    </div>
+
+    <?php /* Header 12 */?>
+    <?php elseif ($_headerVer == 'header12'): ?>
+    <?php if ($themeSettingConfig->getStoreConfig('themesettings/header/display_top_header')): ?>
+    <div class="top-header">
+        <div class='frame'>
+            <div class='line align-items-center'>
+                <div class='col-des-6 col-tb-4 col-sm-12 left-content'>
+                    <?=$this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('header_2_custom_static_block_1')->toHtml();?>
+                </div>
+                <div class='col-des-6 col-tb-8 col-sm-12 d-flex align-items-center right-content'>
+                    <div class='social'>
+                        <?=$this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('icons')->toHtml();?>
+                    </div>
+                    <?php if (in_array('account', $blockEnable)): ?>
+                    <div class="header-top-links">
+                        <div class="actions">
+                            <a class="action top-links theme-header-icon" href='#' title='Account'><i
+                                    class="icon-user"></i><span class='label'><?=__('Account')?></span></a>
+                        </div>
+                        <?=$block->getChildHtml('login.form.header');?>
+                    </div>
+                    <?php endif?>
+                    <?php if (in_array('store', $blockEnable) || in_array('curency', $blockEnable)): ?>
+                    <div class="customer-web-config">
+                        <?php if (in_array('curency', $blockEnable)): ?>
+                        <?=$block->getChildHtml('currency');?>
+                        <?php endif?>
+                        <?php if (in_array('store', $blockEnable)): ?>
+                        <?=$block->getChildHtml('store_language');?>
+                        <?php endif?>
+                    </div>
+                    <?php endif?>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php endif?>
+
+    <div class="middle-header elements-sticky-mb">
+        <div class='frame'>
+            <div class="conts-middle-header">
+                <div class='line align-items-center '>
+                    <div class='col-des-5 col-tb-0 hide-tb hide-mb text-center search-desktop'>
+                        <?php if (in_array('search', $blockEnable)): ?>
+                        <?=$block->getChildHtml('topSearch')?>
+                        <?php endif?>
+                    </div>
+                    <div class='col-des-2 col-tb-2 d-flex align-items-center  col-mb-4 center-content'>
+                        <div class="megamenu_action"><button class="megamenu_action_mb" type="button"><i
+                                    class="icon-bars"></i></button></div>
+                        <?=$block->getChildHtml('logo')?>
+                    </div>
+                    <div class='col-des-5 col-tb-5 col-mb-8  right-content'>
+                        <div class='d-flex align-items-center  menu-header-icon'>
+                            <?php if (in_array('wishlist', $blockEnable)): ?>
+                            <?=$block->getChildHtml('wishlist-link-header')?>
+                            <?php endif?>
+
+                            <?php if (in_array('minicart', $blockEnable)): ?>
+                            <?=$block->getChildHtml('minicart')?>
+                            <?php endif?>
+
+                            <?php if ($themeSettingConfig->getStoreConfig('themesettings/header/display_top_header') == 0): ?>
+
+                            <?php if (in_array('account', $blockEnable)): ?>
+                            <div class="header-top-links">
+                                <div class="actions">
+                                    <a class="action top-links theme-header-icon" href='#' title='Account'><i
+                                            class="icon-user"></i><span class='label'><?=__('Account')?></span></a>
+                                </div>
+                                <?=$block->getChildHtml('login.form.header');?>
+                            </div>
+                            <?php endif?>
+
+                            <div class="setting-site">
+                                <div class="actions">
+                                    <button class="action setting" type="button"><span
+                                            class="icon-cog theme-header-icon"></span></button>
+                                </div>
+                                <div class="setting-site-content">
+                                    <div class="ct">
+                                        <div class="actions-close">
+                                            <button id="close-setting-site"><span class="icon-close"></span></button>
+                                        </div>
+                                        <div class="customer-web-config">
+                                            <?php if (in_array('store', $blockEnable)): ?>
+                                            <?=$block->getChildHtml('store_language');?>
+                                            <?php endif?>
+                                            <?php if (in_array('curency', $blockEnable)): ?>
+                                            <?=$block->getChildHtml('currency');?>
+                                            <?php endif?>
+                                        </div>
+                                        <?php if (in_array('static1', $blockEnable)): ?>
+                                        <?=$this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('header-custom-static-block-social-setting-site')->toHtml();?>
+                                        <?php endif?>
+                                    </div>
+                                </div>
+                            </div>
+                            <?php endif?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom-header elements-sticky">
+        <div class='frame'>
+            <div class=' d-flex align-items-center conts-bottom-header'>
+                <div class="horizontal-menu<?php if (!$block->getChildHtml('megamenu')): ?> mgt-menu<?php endif?>">
+                    <?php if ($block->getChildHtml('megamenu')): ?>
+                    <?=$block->getChildHtml('megamenu')?>
+                    <?php else: ?>
+                    <?=$block->getChildHtml('store.menu')?>
+                    <?php endif?>
+                </div>
+                <?=$this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('header_custom_static_block_2')->toHtml();?>
+            </div>
+        </div>
+    </div>
+
+    <?php /* Header 13 */?>
+    <?php elseif ($_headerVer == 'header13'): ?>
+    <?php if ($themeSettingConfig->getStoreConfig('themesettings/header/display_top_header')): ?>
+    <div class="top-header">
+        <div class='frame'>
+            <div class='line align-items-center'>
+                <div class='col-des-6 col-tb-4 col-sm-12 left-content'>
+                    <?=$this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('header_2_custom_static_block_1')->toHtml();?>
+                </div>
+                <div class='col-des-6 col-tb-8 col-sm-12 d-flex align-items-center right-content'>
+                    <div class='social'>
+                        <?=$this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('header_8_custom_static_block_social')->toHtml();?>
+                    </div>
+                    <?php if (in_array('account', $blockEnable)): ?>
+                    <div class="header-top-links">
+                        <div class="actions">
+                            <a class="action top-links theme-header-icon" href='#' title='Account'><i
+                                    class="icon-user"></i><span class='label'><?=__('Account')?></span></a>
+                        </div>
+                        <?=$block->getChildHtml('login.form.header');?>
+                    </div>
+                    <?php endif?>
+                    <?php if (in_array('store', $blockEnable) || in_array('curency', $blockEnable)): ?>
+                    <div class="customer-web-config">
+                        <?php if (in_array('store', $blockEnable)): ?>
+                        <?=$block->getChildHtml('store_language');?>
+                        <?php endif?>
+                        <?php if (in_array('curency', $blockEnable)): ?>
+                        <?=$block->getChildHtml('currency');?>
+                        <?php endif?>
+                    </div>
+                    <?php endif?>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php endif?>
+
+    <div class="middle-header elements-sticky-mb">
+        <div class='frame'>
+            <div class="conts-middle-header">
+                <div class='line align-items-center '>
+                    <div class='col-des-5 col-tb-0 hide-tb hide-mb text-center search-desktop'>
+                        <?php if (in_array('search', $blockEnable)): ?>
+                        <?=$block->getChildHtml('topSearch')?>
+                        <?php endif?>
+                    </div>
+                    <div class='col-des-2 col-tb-7 d-flex align-items-center  col-mb-4 center-content'>
+                        <div class="megamenu_action"><button class="megamenu_action_mb" type="button"><i
+                                    class="icon-bars"></i></button></div>
+                        <?=$this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('free_delivery')->toHtml();?>
+                        <div class="logo-leftnav">
+                            <?=$block->getChildHtml('logo')?>
+                        </div>
+                    </div>
+                    <div class='col-des-5 col-tb-5 col-mb-8  right-content'>
+                        <div class='d-flex align-items-center  menu-header-icon'>
+                            <?php if (in_array('account', $blockEnable)): ?>
+                                <div class="header-top-links">
+                                    <div class="actions">
+                                        <a class="action top-links theme-header-icon" href='#' title='Account'><i
+                                                class="icon-user"></i><span class='label'><?=__('Account')?></span></a>
+                                    </div>
+                                    <?=$block->getChildHtml('login.form.header');?>
+                                </div>
+                            <?php endif?>
+
+                            <?php if (in_array('wishlist', $blockEnable)): ?>
+                                <?=$block->getChildHtml('wishlist-link-header')?>
+                            <?php endif?>
+
+                            <?php if (in_array('minicart', $blockEnable)): ?>
+                                <?=$block->getChildHtml('minicart')?>
+                            <?php endif?>
+
+                            <?php if ($themeSettingConfig->getStoreConfig('themesettings/header/display_top_header') == 0): ?>
+
+                            <div class="setting-site">
+                                <div class="actions">
+                                    <button class="action setting" type="button"><span
+                                            class="icon-cog theme-header-icon"></span></button>
+                                </div>
+                                <div class="setting-site-content">
+                                    <div class="ct">
+                                        <div class="actions-close">
+                                            <button id="close-setting-site"><span class="icon-close"></span></button>
+                                        </div>
+                                        <div class="customer-web-config">
+                                            <?php if (in_array('store', $blockEnable)): ?>
+                                            <?=$block->getChildHtml('store_language');?>
+                                            <?php endif?>
+                                            <?php if (in_array('curency', $blockEnable)): ?>
+                                            <?=$block->getChildHtml('currency');?>
+                                            <?php endif?>
+                                        </div>
+                                        <?php if (in_array('static1', $blockEnable)): ?>
+                                        <?=$this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('header-custom-static-block-social-setting-site')->toHtml();?>
+                                        <?php endif?>
+                                    </div>
+                                </div>
+                            </div>
+                            <?php endif?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom-header elements-sticky">
+        <div class='frame'>
+            <div class=' d-flex align-items-center conts-bottom-header'>
+                <div class="horizontal-menu<?php if (!$block->getChildHtml('megamenu')): ?> mgt-menu<?php endif?>">
+                    <div class="hide-tb hide-mb">
+                        <?=$block->getChildHtml('logo')?>
+                    </div>
+                    <?php if ($block->getChildHtml('megamenu')): ?>
+                    <?=$block->getChildHtml('megamenu')?>
+                    <?php else: ?>
+                    <?=$block->getChildHtml('store.menu')?>
+                    <?php endif?>
+                </div>
+            </div>
+        </div>
+        <div class="bottom-left-nav hide-tb hide-mb">
+            <?=$this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('footer_social_leftnav')->toHtml();?>
+            <div>
+                <div class="frame">
+                    <p class="footer-copyright">
+                        <?=$copyright?>
+                    </p><!-- End .footer-copyright -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+    require([
+        "jquery"
+    ], function($) {
+        $(document).ready(function() {
+            $(window).resize(function() {
+                $(".header13").addClass("leftnav");
+                $("body").addClass("leftnav-page");
+                if ($(this).width() >= 1200 && $(".header-area").hasClass("header13")) {
+                    $(".header13").addClass("leftnav");
+                    $("body").addClass("leftnav-page");
+                } else {
+                    $(".header13").removeClass("leftnav");
+                    $("body").removeClass("leftnav-page");
+                }
+            });
+
+            $(".header13 .navigation .nav-main-menu > li.mega-menu-fullwidth:not(.menu-2columns, .menu-3columns)").hover(function() {
+                if($(window).width() > 1199){
+                    var widthMenu = $(window).width() - 300;
+                    $(this).find("> .dropdown-mega-menu").width(widthMenu);
+                }
+		    });
+
+            $(".header13 .navigation .nav-main-menu > li.mega-menu-fullwidth.menu-2columns").hover(function() {
+                if($(window).width() > 1199){
+                    $(this).find("> .dropdown-mega-menu").width(500);
+                }
+            });
+        });
+
+        $(window).scroll(function() {
+            if ($(this).scrollTop() > $(".middle-header").innerHeight()) {
+                if ($(".header13").hasClass("leftnav")) {
+                    $(".middle-header").addClass("fixed-top");
+                }
+            } else {
+                $(".middle-header").removeClass("fixed-top");
+            }
+        });
+    });
+    </script>
+
+    <?php /* Header 9 */?>
+    <?php elseif ($_headerVer == 'header9'): ?>
+
+    <?php if ($themeSettingConfig->getStoreConfig('themesettings/header/display_top_header')): ?>
+    <div class="top-header">
+        <div class='frame'>
+            <div class='conts-top-header'>
+                <div class='line align-items-center'>
+                    <div class='col-des-6 col-tb-6 col-sm-8 left-content'>
+                        <?=$this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('header_2_custom_static_block_1')->toHtml();?>
+                    </div>
+                    <div class='col-des-6 col-tb-6 col-sm-4 right-content'>
+                        <?php if (in_array('store', $blockEnable) || in_array('curency', $blockEnable)): ?>
+                        <div class="customer-web-config">
+                            <?php if (in_array('store', $blockEnable)): ?>
+                            <?=$block->getChildHtml('store_language');?>
+                            <?php endif?>
+                            <?php if (in_array('curency', $blockEnable)): ?>
+                            <?=$block->getChildHtml('currency');?>
+                            <?php endif?>
+                        </div>
+                        <?php endif?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php endif?>
+
+    <div class="middle-header elements-sticky-mb">
+        <div class='frame'>
+            <div class='line align-items-center '>
+
+                <div class='col-des-3 col-tb-4  col-mb-6 left-content'>
+                    <div class="megamenu_action"><button class="megamenu_action_mb" type="button"><i
+                                class="icon-bars"></i></button></div>
+                    <?=$block->getChildHtml('logo')?>
+                </div>
+                <div class='col-des-6 hide-tb hide-mb text-center search-desktop'>
+                    <?php if (in_array('search', $blockEnable)): ?>
+                    <?=$block->getChildHtml('topSearch')?>
+                    <?php endif?>
+                </div>
+                <div class='col-des-3 col-tb-8 col-mb-6  right-content'>
+                    <div class='d-flex align-items-center  menu-header-icon'>
+
+                        <?php if (in_array('account', $blockEnable)): ?>
+                        <div class="header-top-links">
+                            <div class="actions">
+                                <a class="action top-links theme-header-icon" href='#' title='Account'><i
+                                        class="icon-user"></i><span class='label'><?=__('Account')?></span></a>
+                            </div>
+                            <?=$block->getChildHtml('login.form.header');?>
+                        </div>
+                        <?php endif?>
+                        <?php if (in_array('wishlist', $blockEnable)): ?>
+                        <?=$block->getChildHtml('wishlist-link-header')?>
+                        <?php endif?>
+
+                        <?php if (in_array('minicart', $blockEnable)): ?>
+                        <?=$block->getChildHtml('minicart')?>
+                        <?php endif?>
+                        <?php if ($themeSettingConfig->getStoreConfig('themesettings/header/display_top_header') == 0): ?>
+                        <div class="setting-site">
+                            <div class="actions">
+                                <a class="action setting" href="#" title="action">
+                                    <span class="icon-cog theme-header-icon"></span>
+                                    <span class="label text">Set</span>
+                                </a>
+                            </div>
+                            <div class="setting-site-content">
+                                <div class="ct">
+                                    <div class="actions-close">
+                                        <button id="close-setting-site"><span class="icon-close"></span></button>
+                                    </div>
+                                    <div class="customer-web-config">
+                                        <?php if (in_array('store', $blockEnable)): ?>
+                                        <?=$block->getChildHtml('store_language');?>
+                                        <?php endif?>
+                                        <?php if (in_array('curency', $blockEnable)): ?>
+                                        <?=$block->getChildHtml('currency');?>
+                                        <?php endif?>
+                                    </div>
+                                    <?php if (in_array('static1', $blockEnable)): ?>
+                                    <?=$this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('header-custom-static-block-social-setting-site')->toHtml();?>
+                                    <?php endif?>
+                                </div>
+                            </div>
+                        </div>
+                        <?php endif?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom-header elements-sticky">
+        <div class='frame'>
+            <div class='conts-bottom-header'>
+                <div class="horizontal-menu<?php if (!$block->getChildHtml('megamenu')): ?> mgt-menu<?php endif?>">
+                    <?php if ($block->getChildHtml('megamenu')): ?>
+                    <?=$block->getChildHtml('megamenu')?>
+                    <?php else: ?>
+                    <?=$block->getChildHtml('store.menu')?>
+                    <?php endif?>
+                </div>
+                <?=$this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('header_custom_static_block_2')->toHtml();?>
+            </div>
+        </div>
+    </div>
+    <?php elseif ($_headerVer == 'header10'): ?>
+    <?php /* Header 10 */?>
+    <?php if ($themeSettingConfig->getStoreConfig('themesettings/header/display_top_header')): ?>
+    <div class="top-header">
+        <div class='frame-fluid'>
+            <div class='conts-top-header'>
+                <div class='line align-items-center'>
+                    <div class='col-des-3 col-tb-3 col-sm-4 left-content'>
+                        <?php if (in_array('store', $blockEnable) || in_array('curency', $blockEnable)): ?>
+                        <div class="customer-web-config">
+                            <?php if (in_array('store', $blockEnable)): ?>
+                            <?=$block->getChildHtml('store_language');?>
+                            <?php endif?>
+                            <?php if (in_array('curency', $blockEnable)): ?>
+                            <?=$block->getChildHtml('currency');?>
+                            <?php endif?>
+                        </div>
+                        <?php endif?>
+
+                    </div>
+                    <div class='col-des-9 col-tb-9 col-sm-8 right-content'>
+                        <div class='d-flex align-items-center  justify-content-end top-menu'>
+                            <?=$this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('header_2_custom_static_block')->toHtml();?>
+
+                            <?php if (in_array('account', $blockEnable)): ?>
+                            <div class="header-top-links">
+                                <div class="actions">
+                                    <a class="action top-links theme-header-icon" href='#' title='Account'><i
+                                            class="icon-user"></i><span class='label'><?=__('Account')?></span></a>
+                                </div>
+                                <?=$block->getChildHtml('login.form.header');?>
+                            </div>
+                            <?php endif?>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php endif?>
+
+    <div class="middle-header elements-sticky elements-sticky-mb">
+        <div class='frame-fluid'>
+            <div class='d-flex align-items-center '>
+                <div class='left-content logo'>
+                    <div class="megamenu_action"><button class="megamenu_action_mb" type="button"><i
+                                class="icon-bars"></i></button></div>
+                    <?=$block->getChildHtml('logo')?>
+                </div>
+                <div class="horizontal-menu<?php if (!$block->getChildHtml('megamenu')): ?> mgt-menu<?php endif?>">
+                    <?php if ($block->getChildHtml('megamenu')): ?>
+                    <?=$block->getChildHtml('megamenu')?>
+                    <?php else: ?>
+                    <?=$block->getChildHtml('store.menu')?>
+                    <?php endif?>
+                </div>
+                <div class='right-content'>
+                    <div class='d-flex align-items-center  menu-header-icon'>
+                        <?php if (in_array('search', $blockEnable)): ?>
+                        <div class='search-desktop'>
+                            <?=$block->getChildHtml('topSearch')?>
+                        </div>
+                        <?php endif?>
+
+                        <?php if (in_array('wishlist', $blockEnable)): ?>
+                        <?=$block->getChildHtml('wishlist-link-header')?>
+                        <?php endif?>
+
+                        <?php if (in_array('minicart', $blockEnable)): ?>
+                        <?=$block->getChildHtml('minicart')?>
+                        <?php endif?>
+
+                        <?php if ($themeSettingConfig->getStoreConfig('themesettings/header/display_top_header') == 0): ?>
+
+                        <?php if (in_array('account', $blockEnable)): ?>
+                        <div class="header-top-links">
+                            <div class="actions">
+                                <a class="action top-links theme-header-icon" href='#' title='Account'><i
+                                        class="icon-user"></i><span class='label'><?=__('Account')?></span></a>
+                            </div>
+                            <?=$block->getChildHtml('login.form.header');?>
+                        </div>
+                        <?php endif?>
+
+                        <div class="setting-site">
+                            <div class="actions">
+                                <button class="action setting" type="button"><span
+                                        class="icon-cog theme-header-icon"></span></button>
+                            </div>
+                            <div class="setting-site-content">
+                                <div class="ct">
+                                    <div class="actions-close">
+                                        <button id="close-setting-site"><span class="icon-close"></span></button>
+                                    </div>
+                                    <div class="customer-web-config">
+                                        <?php if (in_array('store', $blockEnable)): ?>
+                                        <?=$block->getChildHtml('store_language');?>
+                                        <?php endif?>
+                                        <?php if (in_array('curency', $blockEnable)): ?>
+                                        <?=$block->getChildHtml('currency');?>
+                                        <?php endif?>
+                                    </div>
+                                    <?php if (in_array('static1', $blockEnable)): ?>
+                                    <?=$this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('header-custom-static-block-social-setting-site')->toHtml();?>
+                                    <?php endif?>
+                                </div>
+                            </div>
+                        </div>
+                        <?php endif?>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php /* Header 11 */?>
+    <?php elseif ($_headerVer == 'header11'): ?>
+    <div class="middle-header elements-sticky-mb">
+        <div class='frame'>
+            <div class='line align-items-center '>
+                <div class='col-des-3 col-tb-3  col-mb-6 left-content'>
+                    <div class="megamenu_action"><button class="megamenu_action_mb" type="button"><i
+                                class="icon-bars"></i></button></div>
+                    <?=$block->getChildHtml('logo')?>
+                </div>
+                <div class='col-des-6 col-tb-6 hide-mb text-center search-desktop'>
+                    <?php if (in_array('search', $blockEnable)): ?>
+                    <?=$block->getChildHtml('topSearch')?>
+                    <?php endif?>
+                </div>
+                <div class='col-des-3 col-tb-3 col-mb-6  right-content'>
+                    <div class='d-flex align-items-center  menu-header-icon'>
+                        <div class='compare-header'>
+                            <?php echo $this->getLayout()->createBlock("Magento\Framework\View\Element\Template")->setTemplate("MGS_MollaTheme::product-compare.phtml")->toHtml(); ?>
+                        </div>
+                        <?php if (in_array('wishlist', $blockEnable)): ?>
+                        <?=$block->getChildHtml('wishlist-link-header')?>
+                        <?php endif?>
+
+                        <?php if (in_array('minicart', $blockEnable)): ?>
+                        <?=$block->getChildHtml('minicart')?>
+                        <?php endif?>
+                        <?php if (in_array('store', $blockEnable) || in_array('curency', $blockEnable)): ?>
+                        <div class="setting-site">
+                            <div class="actions">
+                                <button class="action setting" type="button"><span
+                                        class="icon-cog theme-header-icon"></span></button>
+                            </div>
+                            <div class="setting-site-content">
+                                <div class="ct">
+                                    <div class="actions-close">
+                                        <button id="close-setting-site"><span class="icon-close"></span></button>
+                                    </div>
+                                    <div class="customer-web-config">
+                                        <?php if (in_array('store', $blockEnable)): ?>
+                                        <?=$block->getChildHtml('store_language');?>
+                                        <?php endif?>
+                                        <?php if (in_array('curency', $blockEnable)): ?>
+                                        <?=$block->getChildHtml('currency');?>
+                                        <?php endif?>
+                                    </div>
+                                    <?php if (in_array('static1', $blockEnable)): ?>
+                                    <?=$this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('header-custom-static-block-social-setting-site')->toHtml();?>
+                                    <?php endif?>
+                                </div>
+                            </div>
+                        </div>
+                        <?php endif?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom-header elements-sticky">
+        <div class='frame'>
+            <div class='conts-bottom-header'>
+                <?=$this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('menu-vertical-header-tools')->toHtml();?>
+                <div class="horizontal-menu<?php if (!$block->getChildHtml('megamenu')): ?> mgt-menu<?php endif?>">
+                    <?php if ($block->getChildHtml('megamenu')): ?>
+                    <?=$block->getChildHtml('megamenu')?>
+                    <?php else: ?>
+                    <?=$block->getChildHtml('store.menu')?>
+                    <?php endif?>
+                </div>
+                <?php if (in_array('account', $blockEnable)): ?>
+                <div class="header-top-links">
+                    <div class="actions">
+                        <a class="action top-links theme-header-icon" href='#' title='Account'><i
+                                class="icon-user"></i><span class='label'><?=__('Login / Registration')?></span></a>
+                    </div>
+                    <?=$block->getChildHtml('login.form.header');?>
+                </div>
+                <?php endif?>
+            </div>
+        </div>
+    </div>
+
+    <?php endif?>
+</div>
+
+<?php /* Menu Mobile & Tablet  */?>
+<div
+    class="header-mobile <?php if ($themeSettingConfig->getStoreConfig('themesettings/header/dark_menu_mobile')): ?> dark-menu <?php endif?>">
+    <div class='mobile-menu-wrapper'>
+        <span class="mobile-menu-close"><i class="icon-close"></i></span>
+        <!-- Search Mobile-->
+        <div class="search-mobile"></div>
+        <?php // Tab Menu - Responsive Header ?>
+        <?php if ($_headerVer == 'header1' || $_headerVer == 'header2' || $_headerVer == 'header6'): ?>
+        <ul class="nav nav-tabs">
+            <li class="nav-item active"><a class='nav-link' data-toggle="tab"
+                    data-tab="#main-Menucontent"><?=__('Menu')?></a></li>
+            <li class="nav-item"><a class='nav-link' data-toggle="tab" data-tab="#main-Category"><?=__('Category')?></a>
+            </li>
+        </ul>
+        <?php endif?>
+        <div class="tab-content">
+            <div id="main-Menucontent" class="tab-pane active">
+
+            </div>
+            <?php if ($_headerVer == 'header1' || $_headerVer == 'header2' || $_headerVer == 'header6'): ?>
+            <div id="main-Category" class="tab-pane">
+
+            </div>
+            <?php endif?>
+        </div>
+        <?=$this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('header_custom_static_block_social_mobile')->toHtml();?>
+    </div>
+</div>

@@ -1,0 +1,7 @@
+<?php $themeSettingConfig = $this->helper('MGS\ThemeSettings\Helper\Config'); ?>
+<?php if($themeSettingConfig->getStoreConfig('themesettings/sharethis/enabled')): ?>
+<div class="social-icons social-icons-sm">
+	<span class="social-label">Share:</span>
+	<?php echo $themeSettingConfig->getStoreConfig('themesettings/sharethis/html_share'); ?>
+</div>
+<?php endif ?>

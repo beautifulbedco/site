@@ -1,0 +1,274 @@
+<?php
+/*
+ *     Block Guide
+ *    Report Bug: $block->getChildHtml('report.bugs');
+ *    Store Swicher: $block->getChildHtml('store_switcher');
+ *    Footer Links: $block->getChildHtml('footer_links');
+ *    Copyright: $block->getChildHtml('copyright');
+ *    Form Subcribe: $block->getChildHtml('form.subscribe');
+ *    Static block:              $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('your_block_identifier')->toHtml();
+ */
+?>
+
+<?php
+$themeSettingConfig = $this->helper('MGS\ThemeSettings\Helper\Config');
+$themeHelper = $this->helper('MGS\Fbuilder\Helper\Data');
+$footerVer = $themeSettingConfig->getStoreConfig('themesettings/footer/footer_version');
+$footerParallax = $themeSettingConfig->getStoreConfig('themesettings/footer/parallax');
+if ($footerVer == '') {$footerVer = 'footer1';}
+if ($themeSettingConfig->getStoreConfig('themesettings/footer/footer_bottom_custom_copyright')) {
+    $copyright = $themeSettingConfig->getStoreConfig('themesettings/footer/footer_bottom_copyright');
+} else {
+    $copyright = $block->getChildHtml('copyright');
+}
+?>
+<div id="footer-section"
+    class="<?=$footerVer?><?php if ($footerVer == 'footer4' || $footerVer == 'footer6'): ?> footer-dark<?php endif?><?php if ($footerParallax): ?> footer footer-parallax<?php endif?>">
+    <?php if ($footerVer == 'footer1'): ?>
+    <div class="middle-footer">
+        <div class="frame">
+            <div class="line">
+                <div class="col-mb-12 col-des-6 col-sm-12 col-tb-12">
+                    <div class="widget widget-about">
+                        <?=$this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('footer-block-logo')->toHtml();?>
+                        <?=$this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('footer-1-block-about')->toHtml();?>
+
+                    </div><!-- End .widget about-widget -->
+                </div><!-- End .col-mb-12 col-des-3 -->
+
+                <div class="col-mb-12 col-des-2 col-sm-6 col-tb-4">
+                    <div class="widget">
+                        <?=$this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('footer-1-block-info')->toHtml();?>
+                    </div><!-- End .widget -->
+                </div><!-- End .col-mb-4 col-des-3 -->
+
+                <div class="col-mb-12 col-des-2 col-sm-6 col-tb-4">
+                    <div class="widget">
+                        <?=$this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('footer-1-customer-service')->toHtml();?>
+                    </div><!-- End .widget -->
+                </div><!-- End .col-mb-4 col-des-3 -->
+
+                <div class="col-mb-12 col-des-2 col-sm-6 col-tb-4">
+                    <div class="widget">
+                        <?=$this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('footer-1-block-my-account')->toHtml();?>
+                    </div><!-- End .widget -->
+                </div><!-- End .col-mb-64 col-des-3 -->
+            </div><!-- End .line -->
+        </div>
+    </div>
+    <div class="bottom-footer">
+        <div class="frame">
+            <p class="footer-copyright">
+                <?=$copyright?>
+            </p><!-- End .footer-copyright -->
+            <?=$this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('footer-1-block-menu')->toHtml();?>
+
+            <?=$this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('footer-1-block-social-media')->toHtml();?>
+        </div>
+    </div>
+    <?php elseif ($footerVer == 'footer2'): ?>
+    <div class="middle-footer">
+        <div class="frame-fluid">
+            <div class="line">
+                <div class="col-mb-12 col-des-4 col-tb-12 col-sm-12">
+                    <div class="widget widget-about">
+                        <?=$this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('footer-block-logo')->toHtml();?>
+                        <?=$this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('footer-1-block-about')->toHtml();?>
+                    </div><!-- End .widget about-widget -->
+                </div><!-- End .col-mb-12 col-des-4 -->
+
+                <div class="col-mb-6 col-des-2 col-tb-4 col-sm-6">
+                    <div class="widget">
+                        <?=$this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('footer-2-block-useful-link')->toHtml();?>
+                    </div><!-- End .widget -->
+                </div><!-- End .col-mb-4 col-des-2 -->
+
+                <div class="col-mb-6 col-des-2 col-tb-4 col-sm-6">
+                    <div class="widget">
+                        <?=$this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('footer-1-customer-service')->toHtml();?>
+                    </div><!-- End .widget -->
+                </div><!-- End .col-mb-4 col-des-2 -->
+
+                <div class="col-mb-6 col-des-2 col-tb-4 col-sm-6">
+                    <div class="widget">
+                        <?=$this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('footer-1-block-my-account')->toHtml();?>
+                    </div><!-- End .widget -->
+                </div><!-- End .col-mb-4 col-des-2 -->
+
+                <div class="col-mb-12 col-des-2 col-tb-6 col-sm-6">
+                    <?=$this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('footer-2-block-newsletter')->toHtml();?>
+                </div><!-- End .col-mb-6 col-des-2 -->
+            </div><!-- End .line -->
+        </div>
+    </div>
+    <div class="bottom-footer">
+        <div class="frame-fluid">
+            <p class="footer-copyright">
+                <?=$copyright?>
+            </p><!-- End .footer-copyright -->
+            <?=$this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('footer-1-block-menu')->toHtml();?>
+
+            <?=$this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('footer-1-block-social-media')->toHtml();?>
+        </div>
+    </div>
+
+    <?php elseif ($footerVer == 'footer3'): ?>
+    <div class="middle-footer">
+        <div class="frame">
+            <div class="line">
+                <div class="col-mb-12 col-des-3 col-tb-6 col-sm-6">
+                    <div class="widget widget-about">
+                        <?=$this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('footer-block-logo')->toHtml();?>
+                        <?=$this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('footer-3-block-about')->toHtml();?>
+                    </div><!-- End .widget about-widget -->
+                </div><!-- End .col-mb-6 col-des-3 -->
+
+                <div class="col-mb-12 col-des-3 col-tb-6 col-sm-6">
+                    <div class="widget">
+                        <?=$this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('footer-2-block-useful-link')->toHtml();?>
+                    </div><!-- End .widget -->
+                </div><!-- End .col-mb-6 col-des-3 -->
+
+                <div class="col-mb-12 col-des-3 col-tb-6 col-sm-6">
+                    <div class="widget">
+                        <?=$this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('footer-1-customer-service')->toHtml();?>
+
+                    </div><!-- End .widget -->
+                </div><!-- End .col-mb-6 col-des-3 -->
+
+                <div class="col-mb-12 col-des-3 col-tb-6 col-sm-6">
+                    <div class="widget">
+                        <?=$this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('footer-1-block-my-account')->toHtml();?>
+                    </div><!-- End .widget -->
+                </div><!-- End .col-mb-6 col-des-3 -->
+            </div><!-- End .line -->
+        </div>
+    </div>
+    <div class="bottom-footer">
+        <div class="frame">
+            <p class="footer-copyright">
+                <?=$copyright?>
+            </p><!-- End .footer-copyright -->
+            <figure class="footer-payments">
+                <?=$this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('footer-block-payment')->toHtml();?>
+            </figure><!-- End .footer-payments -->
+        </div><!-- End .container -->
+    </div>
+    <?php elseif ($footerVer == 'footer4'): ?>
+    <div class="middle-footer">
+        <div class="frame">
+            <div class="line">
+                <div class="col-mb-12 col-des-3 col-tb-6 col-sm-6">
+                    <div class="widget widget-about">
+                        <?=$this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('footer-block-logo')->toHtml();?>
+                        <?=$this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('footer-4-block-about')->toHtml();?>
+                    </div><!-- End .widget about-widget -->
+                </div><!-- End .col-mb-6 col-des-3 -->
+
+                <div class="col-mb-12 col-des-3 col-tb-6 col-sm-6">
+                    <div class="widget">
+                        <?=$this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('footer-2-block-useful-link')->toHtml();?>
+                    </div><!-- End .widget -->
+                </div><!-- End .col-mb-6 col-des-3 -->
+
+                <div class="col-mb-12 col-des-3 col-tb-6 col-sm-6">
+                    <div class="widget">
+                        <?=$this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('footer-1-customer-service')->toHtml();?>
+                    </div><!-- End .widget -->
+                </div><!-- End .col-mb-6 col-des-3 -->
+
+                <div class="col-mb-12 col-des-3 col-tb-6 col-sm-6">
+                    <div class="widget">
+                        <?=$this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('footer-1-block-my-account')->toHtml();?>
+                    </div><!-- End .widget -->
+                </div><!-- End .col-mb-6 col-des-3 -->
+            </div><!-- End .line -->
+        </div>
+    </div>
+    <div class="bottom-footer">
+        <div class="frame">
+            <p class="footer-copyright">
+                <?=$copyright?>
+            </p><!-- End .footer-copyright -->
+            <figure class="footer-payments">
+                <?=$this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('footer-block-payment')->toHtml();?>
+            </figure><!-- End .footer-payments -->
+        </div>
+    </div>
+    <?php elseif ($footerVer == 'footer5'): ?>
+    <div class="bottom-footer">
+        <div class="frame">
+            <p class="footer-copyright">
+                <?=$copyright?>
+            </p><!-- End .footer-copyright -->
+            <?=$this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('footer-1-block-menu')->toHtml();?>
+
+            <?=$this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('footer-1-block-social-media')->toHtml();?>
+        </div>
+    </div>
+    <?php elseif ($footerVer == 'footer6'): ?>
+    <div class="middle-footer">
+        <div class="frame">
+            <div class="line">
+                <div class="col-mb-12 col-des-3 col-tb-6 col-sm-6">
+                    <div class="widget widget-about">
+                        <?=$this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('footer-block-about')->toHtml();?>
+                    </div><!-- End .widget about-widget -->
+                </div><!-- End .col-mb-6 col-des-3 -->
+
+                <div class="col-mb-12 col-des-3 col-tb-6 col-sm-6">
+                    <div class="widget">
+                        <?=$this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('footer-2-block-useful-link')->toHtml();?>
+                    </div><!-- End .widget -->
+                </div><!-- End .col-mb-6 col-des-3 -->
+
+                <div class="col-mb-12 col-des-3 col-tb-6 col-sm-6">
+                    <div class="widget">
+                        <?=$this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('footer-1-customer-service')->toHtml();?>
+                    </div><!-- End .widget -->
+                </div><!-- End .col-mb-6 col-des-3 -->
+
+                <div class="col-mb-12 col-des-3 col-tb-6 col-sm-6">
+                    <div class="widget">
+                        <?=$this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('footer-1-block-my-account')->toHtml();?>
+                    </div><!-- End .widget -->
+                </div><!-- End .col-mb-6 col-des-3 -->
+            </div><!-- End .line -->
+        </div>
+    </div>
+    <div class="bottom-footer">
+        <div class="frame">
+            <div class="footer-payments">
+                <?=$this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('footer-block-payment')->toHtml();?>
+            </div><!-- End .footer-payments -->
+            <?=$this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('footer-6-block-logo')->toHtml();?>
+            <p class="footer-copyright">
+                <?=$copyright?>
+            </p><!-- End .footer-copyright -->
+        </div>
+    </div>
+
+    <?php elseif ($footerVer == 'footer7'): ?>
+    <div class="middle-footer">
+        <div class="frame">
+            <div class="line">
+                <div class="col-mb-12 col-des-3 col-tb-6 col-sm-6">
+                <?=$this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('footer7-col-1')->toHtml();?>
+                </div><!-- End .col-mb-6 col-des-3 -->
+
+                <div class="col-mb-12 col-des-3 col-tb-6 col-sm-6">
+                <?=$this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('footer7-col-2')->toHtml();?>
+                </div><!-- End .col-mb-6 col-des-3 -->
+
+                <div class="col-mb-12 col-des-3 col-tb-6 col-sm-6">
+                <?=$this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('footer7-col-3')->toHtml();?>
+                </div><!-- End .col-mb-6 col-des-3 -->
+
+                <div class="col-mb-12 col-des-3 col-tb-6 col-sm-6">
+                        <?=$this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('footer7-col-4')->toHtml();?>
+                </div><!-- End .col-mb-6 col-des-3 -->
+            </div><!-- End .line -->
+        </div>
+    </div>
+    <?php endif?>
+</div>

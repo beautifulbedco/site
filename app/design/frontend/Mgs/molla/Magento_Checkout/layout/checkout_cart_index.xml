@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="content">
+			<referenceBlock name="checkout.cart">
+				<referenceContainer name="checkout.cart.items">
+					<referenceContainer name="checkout.cart.container" htmlTag="div" htmlClass="cart-container">
+						<container name="cart.bottom" after="checkout.cart.form" htmlTag="div" htmlClass="shopping-cart-right"/>
+						<referenceContainer name="checkout.cart.form">
+							<block class="Magento\Cms\Block\Block" name="service.cart" after="-">
+								<arguments>
+									<argument name="block_id" xsi:type="string">service_cart</argument>
+								</arguments>
+							</block>
+						</referenceContainer>
+					</referenceContainer>
+				</referenceContainer>
+			</referenceBlock>
+        </referenceContainer>
+		<move element="cart.summary" destination="cart.bottom"/>
+		<move element="checkout.cart.coupon" destination="cart.summary" before="-"/>
+		<move element="checkout.cart.shipping" destination="cart.summary" after="checkout.cart.coupon"/>
+		<move element="checkout.cart.totals" destination="cart.summary" after="checkout.cart.shipping"/>
+		<move element="checkout.cart.totals.container" destination="cart.summary" after="checkout.cart.shipping"/>
+		
+    </body>
+</page>

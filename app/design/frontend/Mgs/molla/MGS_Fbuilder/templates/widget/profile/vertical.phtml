@@ -1,0 +1,76 @@
+<?php $builderHelper = $this->helper('MGS\Fbuilder\Helper\Data'); ?>
+<div class="member member-anim text-center">
+	<figure class="member-media">
+		<img src="<?php echo $this->getProfilePhoto() ?>" alt="member photo">
+
+		<figcaption class="member-overlay">
+			<div class="member-overlay-content">
+				<h3 class="member-title"><?php echo $builderHelper->decodeHtmlTag($this->getFbuilderProfileName()) ?>
+					<?php if($this->getData('fbuilder_subtitle')): ?>
+						<span><?php echo $builderHelper->decodeHtmlTag($this->getData('fbuilder_subtitle')) ?></span>
+					<?php endif ?>
+				</h3><!-- End .member-title -->
+				<?php if($this->getData('fbuilder_text_content')): ?>
+					<p><?php echo $builderHelper->decodeHtmlTag($this->getData('fbuilder_text_content')) ?></p> 
+				<?php endif ?>
+				<?php if(($this->getEmail()!='') || ($this->getFacebook()!='') || ($this->getTwitter()!='') || ($this->getLinkedin()!='')): ?>
+					<div class="social-icons social-icons-simple <?php if($this->getSocialBoxShadow()): ?> box-shadow<?php endif ?>">
+							<?php if($this->getFacebook()!=''): ?>
+								<a class="social-icon" title="Facebook" target="_blank" href="<?php echo $this->getFacebook() ?>"><em class="fa fa-facebook"></em></a>
+							<?php endif ?>
+							<?php if($this->getTwitter()!=''): ?>
+								<a class="social-icon" title="Twitter" target="_blank" href="<?php echo $this->getTwitter() ?>"><em class="fa fa-twitter"></em></a>
+							<?php endif ?>
+							<?php if($this->getEmail()!=''): ?>
+								<a class="social-icon" title="Email" target="_blank" href="mailto:<?php echo $this->getEmail() ?>"><em class="fa fa-envelope"></em></a>
+							<?php endif ?>
+							<?php if($this->getLinkedin()!=''): ?>
+								<a class="social-icon" title="Linkedin" target="_blank" href="<?php echo $this->getLinkedin() ?>"><em class="fa fa-linkedin"></em></a>
+							<?php endif ?>
+					</div>
+				<?php endif ?>
+			</div><!-- End .member-overlay-content -->
+		</figcaption><!-- End .member-overlay -->
+	</figure>
+	<div class="member-content">
+		<h3 class="member-title"><?php echo $builderHelper->decodeHtmlTag($this->getFbuilderProfileName()) ?>
+			<?php if($this->getData('fbuilder_subtitle')): ?>
+				<span><?php echo $builderHelper->decodeHtmlTag($this->getData('fbuilder_subtitle')) ?></span>
+			<?php endif ?>
+		</h3><!-- End .member-title -->
+	</div>
+	<!-- <div class="mgs-profile profile-vertical">
+		<div class="photo">
+			<img src="<?php echo $this->getProfilePhoto() ?>" alt="" />
+		</div>
+		<div class="profile-info">
+			<h4><?php echo $builderHelper->decodeHtmlTag($this->getFbuilderProfileName()) ?></h4>
+			<?php if($this->getData('fbuilder_subtitle')): ?>
+				<p class="subtitle"><span><?php echo $builderHelper->decodeHtmlTag($this->getData('fbuilder_subtitle')) ?></span></p>
+			<?php endif ?>
+			
+			<?php if($this->getData('fbuilder_text_content')): ?>
+				<div class="profile-description"><?php echo $builderHelper->decodeHtmlTag($this->getData('fbuilder_text_content')) ?></div>
+			<?php endif ?>
+			
+			<?php if(($this->getEmail()!='') || ($this->getFacebook()!='') || ($this->getTwitter()!='') || ($this->getLinkedin()!='')): ?>
+				<div class="social<?php if($this->getSocialBoxShadow()): ?> box-shadow<?php endif ?>">
+					<ul>
+						<?php if($this->getEmail()!=''): ?>
+							<li class="mail"><a href="mailto:<?php echo $this->getEmail() ?>"><em class="fa fa-envelope"></em></a></li>
+						<?php endif ?>
+						<?php if($this->getFacebook()!=''): ?>
+							<li class="fb"><a href="<?php echo $this->getFacebook() ?>"><em class="fa fa-facebook"></em></a></li>
+						<?php endif ?>
+						<?php if($this->getTwitter()!=''): ?>
+							<li class="tw"><a href="<?php echo $this->getTwitter() ?>"><em class="fa fa-twitter"></em></a></li>
+						<?php endif ?>
+						<?php if($this->getLinkedin()!=''): ?>
+							<li class="in"><a href="<?php echo $this->getLinkedin() ?>"><em class="fa fa-linkedin"></em></a></li>
+						<?php endif ?>
+					</ul>
+				</div>
+			<?php endif ?>
+		</div>
+	</div> -->
+</div>
