@@ -1,0 +1,121 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2020 Amasty (https://www.amasty.com)
+ * @package Amasty_CompanyAccount
+ */
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="amasty_companyaccount" translate="label" type="text" sortOrder="031501" showInDefault="1" showInWebsite="1"
+                 showInStore="1">
+            <class>separator-top</class>
+            <label>Company Account</label>
+            <tab>amasty</tab>
+            <resource>Amasty_CompanyAccount::config</resource>
+            <group id="amasty_information" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <label>Information</label>
+                <frontend_model>Amasty\CompanyAccount\Block\Adminhtml\System\Config\Information</frontend_model>
+            </group>
+            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <label>General</label>
+                <field id="allowed_groups" translate="label" sortOrder="2" showInDefault="1" showInWebsite="0"
+                       showInStore="0" type="multiselect">
+                    <label>Allow Company Creation for Customer Group(s)</label>
+                    <source_model>Magento\Customer\Model\Config\Source\Group\Multiselect</source_model>
+                    <frontend_model>Amasty\CompanyAccount\Block\Adminhtml\System\Config\Field\Multiselect</frontend_model>
+                </field>
+                <field id="auto_approve" translate="label comment" type="select" sortOrder="20" showInDefault="1"
+                       showInWebsite="0" showInStore="0">
+                    <label>Approve Companies Automatically</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment><![CDATA[If set to Yes, all new companies will automatically get Active status.]]></comment>
+                </field>
+                <field id="inactivate_customer" translate="label comment" type="select" sortOrder="30" showInDefault="1"
+                       showInWebsite="0" showInStore="0">
+                    <label>Inactivate Customer upon Removing from Company Account</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment><![CDATA[if disabled, the customer will still remain Active after being removed from Company in admin panel. Note: you can change Customer's Status on Customer edit page.]]></comment>
+                </field>
+            </group>
+            <group id="admin_notif" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <label>Admin Notifications</label>
+                <field id="sender" translate="label" type="select" sortOrder="10" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Email Sender</label>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Identity</source_model>
+                </field>
+                <field id="receiver" translate="label" type="select" sortOrder="10" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Email Receiver for 'New Company' Notifications</label>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Identity</source_model>
+                </field>
+                <field id="new_company_request" translate="label" type="select" sortOrder="20" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Email Template for New Company Request</label>
+                    <source_model>Amasty\CompanyAccount\Model\Source\NewCompanyRequestEmailTemplate</source_model>
+                </field>
+                <field id="new_company_create" translate="label" type="select" sortOrder="30" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Email Template for New Company Creation</label>
+                    <source_model>Amasty\CompanyAccount\Model\Source\NewCompanyEmailTemplate</source_model>
+                </field>
+                <field id="sales_representative_appointment" translate="label" type="select"
+                       sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Email Template for Sales Representative Appointment</label>
+                    <source_model>Amasty\CompanyAccount\Model\Source\SalesRepresentativeEmailTemplate</source_model>
+                </field>
+            </group>
+            <group id="customer_notif" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <label>Customer Notifications</label>
+                <field id="sender" translate="label comment" type="select" sortOrder="10" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Email Sender</label>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Identity</source_model>
+                </field>
+                <field id="active_status" translate="label" type="select" sortOrder="20" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Email Template for Active Status</label>
+                    <source_model>Amasty\CompanyAccount\Model\Source\CompanyActiveEmailTemplate</source_model>
+                </field>
+                <field id="inactive_status" translate="label" type="select" sortOrder="30" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Email Template for Inactive Status</label>
+                    <source_model>Amasty\CompanyAccount\Model\Source\CompanyInactiveEmailTemplate</source_model>
+                </field>
+                <field id="rejected_status" translate="label" type="select"
+                       sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Email Template for Rejected Status</label>
+                    <source_model>Amasty\CompanyAccount\Model\Source\CompanyRejectEmailTemplate</source_model>
+                </field>
+                <field id="customer_linking" translate="label" type="select"
+                       sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Email Template for Customer Linking to a Company</label>
+                    <source_model>Amasty\CompanyAccount\Model\Source\CustomerCompanyLinkEmailTemplate</source_model>
+                </field>
+                <field id="customer_disable" translate="label" type="select"
+                       sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Email Template for Delete Company</label>
+                    <source_model>Amasty\CompanyAccount\Model\Source\CustomerDisableEmailTemplate</source_model>
+                </field>
+                <field id="new_admin" translate="label" type="select"
+                       sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Email Template for New Company Administrator Appointment</label>
+                    <source_model>Amasty\CompanyAccount\Model\Source\NewCompanyAdminEmailTemplate</source_model>
+                </field>
+                <field id="admin_unassign" translate="label" type="select"
+                       sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Email Template for Previous Company Administrator Unassignment</label>
+                    <source_model>Amasty\CompanyAccount\Model\Source\AdminUnassignEmailTemplate</source_model>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

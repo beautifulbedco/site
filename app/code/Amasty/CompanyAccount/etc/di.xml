@@ -1,0 +1,108 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2020 Amasty (https://www.amasty.com)
+ * @package Amasty_CompanyAccount
+ */
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Amasty\CompanyAccount\Api\Data\CompanyInterface" type="Amasty\CompanyAccount\Model\Company" />
+    <preference for="Amasty\CompanyAccount\Api\CompanyRepositoryInterface" type="Amasty\CompanyAccount\Model\Repository\CompanyRepository" />
+    <preference for="Amasty\CompanyAccount\Api\Data\CustomerInterface" type="Amasty\CompanyAccount\Model\Customer" />
+    <preference for="Amasty\CompanyAccount\Api\Data\OrderInterface" type="Amasty\CompanyAccount\Model\Order" />
+    <preference for="Amasty\CompanyAccount\Api\Data\PermissionInterface" type="Amasty\CompanyAccount\Model\Permission" />
+    <preference for="Amasty\CompanyAccount\Api\PermissionRepositoryInterface" type="Amasty\CompanyAccount\Model\Repository\PermissionRepository" />
+    <preference for="Amasty\CompanyAccount\Api\Data\RoleInterface" type="Amasty\CompanyAccount\Model\Role" />
+    <preference for="Amasty\CompanyAccount\Api\RoleRepositoryInterface" type="Amasty\CompanyAccount\Model\Repository\RoleRepository" />
+
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="am_company_listing_data_source"
+                      xsi:type="string">Amasty\CompanyAccount\Model\ResourceModel\Company\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Amasty\CompanyAccount\Model\Source\Company\RestrictedPayments">
+        <arguments>
+            <argument name="additionalPayments" xsi:type="array">
+                <item name="wps_express" xsi:type="array">
+                    <item name="code" xsi:type="const">Magento\Paypal\Model\Config::METHOD_WPS_EXPRESS</item>
+                    <item name="label" xsi:type="string" translate="true">Payments Standard</item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+
+    <virtualType name="Amasty\CompanyAccount\Acl\AclResource\Config\Reader\Filesystem"
+                 type="Magento\Framework\Acl\AclResource\Config\Reader\Filesystem">
+        <arguments>
+            <argument name="fileName" xsi:type="string">amcompany_acl.xml</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="Amasty\CompanyAccount\Acl\AclResource\Provider" type="Magento\Framework\Acl\AclResource\Provider">
+        <arguments>
+            <argument name="configReader" xsi:type="object">Amasty\CompanyAccount\Acl\AclResource\Config\Reader\Filesystem</argument>
+            <argument name="cacheKey" xsi:type="string">amcompany_acl_cache</argument>
+        </arguments>
+    </virtualType>
+
+    <type name="Amasty\CompanyAccount\Block\Roles\Role\Create">
+        <arguments>
+            <argument name="aclProvider" xsi:type="object">Amasty\CompanyAccount\Acl\AclResource\Provider</argument>
+        </arguments>
+    </type>
+
+    <type name="Amasty\CompanyAccount\Model\Company\CompanyManagement">
+        <arguments>
+            <argument name="aclProvider" xsi:type="object">Amasty\CompanyAccount\Acl\AclResource\Provider</argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\Customer\Api\CustomerRepositoryInterface">
+        <plugin name="amCompanyCustomer" type="Amasty\CompanyAccount\Plugin\Customer\Api\CustomerRepositoryPlugin" />
+    </type>
+
+    <type name="Magento\Sales\Api\OrderRepositoryInterface">
+        <plugin name="Amasty_CompanyAccount::amCompanyOrder" type="Amasty\CompanyAccount\Plugin\Sales\Api\OrderRepositoryPlugin" />
+    </type>
+
+    <type name="Magento\Customer\Model\AccountManagement">
+        <plugin name="Amasty_CompanyAccount::lockCustomerLogin" type="Amasty\CompanyAccount\Plugin\Customer\Model\AccountManagementPlugin" />
+    </type>
+
+    <type name="Magento\Ui\DataProvider\Modifier\Pool">
+        <arguments>
+            <argument name="modifiers" xsi:type="array">
+                <item name="am_company_dummy_modifier" xsi:type="array">
+                    <item name="class" xsi:type="string">Amasty\CompanyAccount\Ui\DataProvider\Modifier\Dummy</item>
+                    <item name="sortOrder" xsi:type="number">10</item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\Sales\Model\Service\OrderService">
+        <plugin name="Amasty_CompanyAccount::saveOrder" type="Amasty\CompanyAccount\Plugin\Sales\Model\Service\OrderServicePlugin" />
+    </type>
+
+    <type name="Amazon\Payment\Gateway\Config\Config">
+        <plugin name="Amasty_CompanyAccount::checkAmazonPayment" type="Amasty\CompanyAccount\Plugin\Amazon\Payment\Gateway\Config\ConfigPlugin" />
+    </type>
+
+    <type name="Amazon\Core\Helper\Data">
+        <plugin name="Amasty_CompanyAccount::checkAmazonPaymentButton" type="Amasty\CompanyAccount\Plugin\Amazon\Core\Helper\DataPlugin" />
+    </type>
+
+    <type name="Magento\Paypal\Model\Config">
+        <plugin name="Amasty_CompanyAccount::checkPaypalPayment" type="Amasty\CompanyAccount\Plugin\Paypal\Model\ConfigPlugin" />
+    </type>
+
+    <type name="Magento\Sales\Controller\Order\Reorder">
+        <plugin name="Amasty_CompanyAccount::disable-reorder" type="Amasty\CompanyAccount\Plugin\Sales\Controller\Order\ReorderPlugin" />
+    </type>
+</config>

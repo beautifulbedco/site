@@ -1,0 +1,25 @@
+{
+    "name": "amasty/module-company-account",
+    "description": "Amasty Company Account",
+    "require": {
+        "php": "^7.1.0",
+        "amasty/base": ">=1.10.10"
+    },
+    "suggest": {
+        "amasty/module-company-account-mftf-2": "Install company-account-mftf-2 module to be able to run Company Account MFTF tests for Magento 2.3.5+ version",
+        "amasty/module-company-account-mftf-3": "Install company-account-mftf-3 module to be able to run Company Account MFTF tests for Magento 2.4.0+ version"
+    },
+    "type": "magento2-module",
+    "version": "1.1.5",
+    "license": [
+        "Commercial"
+    ],
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Amasty\\CompanyAccount\\": ""
+        }
+    }
+}

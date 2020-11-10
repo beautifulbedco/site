@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2020 Amasty (https://www.amasty.com)
+ * @package Amasty_CompanyAccount
+ */
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Email:etc/email_templates.xsd">
+    <template id="amasty_companyaccount_admin_notif_new_company_request"
+              label="New Company Registration Request"
+              file="amasty_companyaccount_admin_notif_new_company_request.html"
+              type="html"
+              module="Amasty_CompanyAccount"
+              area="frontend"
+    />
+    <template id="amasty_companyaccount_admin_notif_new_company_create"
+              label="New Company Creation"
+              file="amasty_companyaccount_admin_notif_new_company_create.html"
+              type="html"
+              module="Amasty_CompanyAccount"
+              area="frontend"
+    />
+    <template id="amasty_companyaccount_admin_notif_sales_representative_appointment"
+              label="Appointment of Sales Representative"
+              file="amasty_companyaccount_admin_notif_sales_representative_appointment.html"
+              type="html"
+              module="Amasty_CompanyAccount"
+              area="frontend"
+    />
+    <template id="amasty_companyaccount_customer_notif_active_status"
+              label="Company Account Status Set to Active"
+              file="amasty_companyaccount_customer_notif_active_status.html"
+              type="html"
+              module="Amasty_CompanyAccount"
+              area="frontend"
+    />
+    <template id="amasty_companyaccount_customer_notif_inactive_status"
+              label="Company Account Status Set to Inactive"
+              file="amasty_companyaccount_customer_notif_inactive_status.html"
+              type="html"
+              module="Amasty_CompanyAccount"
+              area="frontend"
+    />
+    <template id="amasty_companyaccount_customer_notif_rejected_status"
+              label="Company Account Status Set to Rejected"
+              file="amasty_companyaccount_customer_notif_rejected_status.html"
+              type="html"
+              module="Amasty_CompanyAccount"
+              area="frontend"
+    />
+    <template id="amasty_companyaccount_customer_notif_customer_linking"
+              label="Customer is Linked to the Company"
+              file="amasty_companyaccount_customer_notif_customer_linking.html"
+              type="html"
+              module="Amasty_CompanyAccount"
+              area="frontend"
+    />
+    <template id="amasty_companyaccount_customer_notif_customer_disable"
+              label="Customer Disabled"
+              file="amasty_companyaccount_customer_notif_customer_disable.html"
+              type="html"
+              module="Amasty_CompanyAccount"
+              area="frontend"
+    />
+    <template id="amasty_companyaccount_customer_notif_new_admin"
+              label="Company Administrator Appointment"
+              file="amasty_companyaccount_customer_notif_new_admin.html"
+              type="html"
+              module="Amasty_CompanyAccount"
+              area="frontend"
+    />
+    <template id="amasty_companyaccount_customer_notif_admin_unassign"
+              label="Company Administrator Unassignment"
+              file="amasty_companyaccount_customer_notif_admin_unassign.html"
+              type="html"
+              module="Amasty_CompanyAccount"
+              area="frontend"
+    />
+</config>
