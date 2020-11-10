@@ -121,8 +121,10 @@ class Edit  extends \Magento\Framework\View\Element\Template {
 		}
 
 		$this->_count = 0;
-		//echo '<pre>'; print_r($arrSetting); echo '</pre>'; die();
-		if(count($arrSetting['section'])>0){
+		# 2020-11-10 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+		# «Undefined index: section in app/code/MGS/ThemeSettings/Block/Customize/Edit.php on line 125»:
+		# https://github.com/beautifulbedco/site/issues/4
+		if(isset($arrSetting['section']) && count($arrSetting['section'])>0){
 			foreach($arrSetting['section'] as $section){
 				if(isset($section['group'][0]['name']) && isset($section['group'][0]['title']) && isset($section['group'][0]['icon'])){
 					foreach($section['group'] as $group){
@@ -148,7 +150,10 @@ class Edit  extends \Magento\Framework\View\Element\Template {
 		
 		
 		$this->_count = 0;
-		if(count($arrSetting['section'])>0){
+		# 2020-11-10 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+		# «Undefined index: section in app/code/MGS/ThemeSettings/Block/Customize/Edit.php on line 125»:
+		# https://github.com/beautifulbedco/site/issues/4
+		if(isset($arrSetting['section']) && count($arrSetting['section'])>0){
 			foreach($arrSetting['section'] as $section){
 				if(isset($section['group'][0]['name']) && isset($section['group'][0]['title']) && isset($section['group'][0]['icon'])){
 					foreach($section['group'] as $group){
