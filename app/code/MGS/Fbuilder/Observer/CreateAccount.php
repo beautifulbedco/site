@@ -62,7 +62,7 @@ class CreateAccount implements ObserverInterface
 						$customer->setEmail($userEmail);
 						$customer->setPasswordHash($userPassword);
 						$customer->setIsFbuilderAccount(1);
-                        # 2020-11-08 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+                        # 2020-11-08 Dmitry Fedyuk https://github.com/dmitrii-fediuk
                         # "`MGS_Fbuilder`: the «Create Front-end Builder account» option
                         # on the administrator registration form leads to the error:
                         # «Rolled back transaction has not been completed correctly»"

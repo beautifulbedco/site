@@ -121,7 +121,7 @@ class Edit  extends \Magento\Framework\View\Element\Template {
 		}
 
 		$this->_count = 0;
-		# 2020-11-10 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+		# 2020-11-10 Dmitry Fedyuk https://github.com/dmitrii-fediuk
 		# «Undefined index: section in app/code/MGS/ThemeSettings/Block/Customize/Edit.php on line 125»:
 		# https://github.com/beautifulbedco/site/issues/4
 		if(isset($arrSetting['section']) && count($arrSetting['section'])>0){
@@ -150,7 +150,7 @@ class Edit  extends \Magento\Framework\View\Element\Template {
 		
 		
 		$this->_count = 0;
-		# 2020-11-10 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+		# 2020-11-10 Dmitry Fedyuk https://github.com/dmitrii-fediuk
 		# «Undefined index: section in app/code/MGS/ThemeSettings/Block/Customize/Edit.php on line 125»:
 		# https://github.com/beautifulbedco/site/issues/4
 		if(isset($arrSetting['section']) && count($arrSetting['section'])>0){
